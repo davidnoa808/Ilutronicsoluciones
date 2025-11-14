@@ -1,0 +1,11 @@
+{
+  "name": "ariel-clean",
+  "version": "1.0.0",
+  "description": "Sitio web de servicios de limpieza",
+  "scripts": {
+    "dev": "vercel dev"
+  },
+  "dependencies": {
+    "nodemailer": "^6.9.7"
+  }
+}
