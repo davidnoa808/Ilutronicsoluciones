@@ -1,7 +1,7 @@
 {
-  "name": "ariel-clean",
+  "name": "Ilutronic soluciones ",
   "version": "1.0.0",
-  "description": "Sitio web de servicios de limpieza",
+  "description": "Sitio web de servicios de tecnologia ",
   "scripts": {
     "dev": "vercel dev"
   },
@@ -9,3 +9,4 @@
     "nodemailer": "^6.9.7"
   }
 }
+
