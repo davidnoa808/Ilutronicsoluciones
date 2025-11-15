@@ -1,12 +1,14 @@
 {
-  "name": "Ilutronic soluciones ",
+  "name": "ilutronicsoluciones",
   "version": "1.0.0",
-  "description": "Sitio web de servicios de tecnologia ",
+  "description": "Sitio web de Ilutronic - Ingeniería Electrónica y Robótica",
   "scripts": {
-    "dev": "vercel dev"
+    "dev": "echo 'No development server needed for static site'",
+    "build": "echo 'No build process for static HTML'",
+    "vercel-build": "echo 'Building static site'"
   },
-  "dependencies": {
-    "nodemailer": "^6.9.7"
-  }
+  "keywords": ["electronics", "robotics", "3d-printing"],
+  "author": "Ilutronic",
+  "license": "MIT"
 }
 
