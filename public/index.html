@@ -1,0 +1,3008 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ilutronic - Ingeniería Electrónica y Robótica</title>
+  <style>
+    /* ===== ESTILOS GENERALES ===== */
+    *{margin:0;padding:0;box-sizing:border-box;}
+    html{scroll-behavior:smooth;}
+    body{font-family:'Montserrat',sans-serif;line-height:1.6;color:#333;background:#f4f4f4;}
+    .container{width:90%;max-width:1100px;margin:auto;padding:1rem;}
+    
+    /* ===== HEADER ===== */
+    header{background:#fff;box-shadow:0 2px 5px rgba(0,0,0,.1);position:sticky;top:0;z-index:50;display:flex;justify-content:space-between;align-items:center;padding:.75rem 1rem;}
+    #logo{height:5rem;}
+    .action-buttons{display:flex;gap:10px;}
+    .action-btn{padding:10px 20px;border:none;border-radius:5px;cursor:pointer;font-weight:bold;color:#fff;transition:.3s;}
+    .publish-btn{background:#2196F3;}
+    .reset-btn{background:#f44336;}
+    .action-btn:hover{transform:translateY(-2px);box-shadow:0 4px 8px rgba(0,0,0,.2);}
+
+    /* ===== PASARELA DE SLIDES ===== */
+    #hero{position:relative;width:100%;height:85vh;overflow:hidden;}
+    .hero-slides{display:flex;width:500%;height:100%;transition:transform .8s ease;}
+    .hero-slide{width:20%;height:100%;display:flex;align-items:center;justify-content:center;background-size:100% 100%;}
+    .hero-slide.active{animation:zoomBg 30s ease-in-out infinite;}
+
+    /* RUTAS DE IMÁGENES POR DEFECTO - CORREGIDAS PARA VERCEL */
+    .slide-1{background-image:url('/imagenes/PrtadaMarketindigital.png');}
+    .slide-2{background-image:url('/imagenes/Portada22-fotor-enhance-20251112132333.jpg');}
+    .slide-3{background-image:url('/imagenes/Portada3_.png');}
+    .slide-4{background-image:url('/imagenes/obtimizacionwebapp.png');}
+    .slide-5{background-image:url('/imagenes/Shopinecomerce.jpg');}
+
+    @keyframes zoomBg{
+      0%{background-size:100% 100%;}
+      50%{background-size:110% 110%;}
+      100%{background-size:100% 100%;}
+    }
+
+    /* ===== ANIMACIONES MEJORADAS ===== */
+    /* SLIDE 1: Animaciones específicas */
+    .slide-1 .main-title{transform:translateY(-100px);opacity:0;}
+    .slide-1.active .main-title{animation:dropDown 1s both .2s;}
+    
+    .slide-1 .sub-title{transform:translateX(100px);opacity:0;}
+    .slide-1.active .sub-title{animation:slideInRight 1s both .4s;}
+    
+    .slide-1 .schedule{opacity:0;display:flex;align-items:center;justify-content:center;gap:.5rem;}
+    .slide-1.active .schedule{animation:fadeIn 1s both .6s;}
+    
+    .slide-1 .clock-icon{transform:translateX(-50px);opacity:0;}
+    .slide-1.active .clock-icon{animation:slideInLeft 1s both .8s;}
+    
+    .slide-1 .schedule-text{transform:translateX(50px);opacity:0;}
+    .slide-1.active .schedule-text{animation:slideInRight 1s both .8s;}
+
+    /* SLIDE 2: Botones redondos y animaciones secuenciales */
+    .slide-2 .offer-title{transform:translateY(-100px);opacity:0;}
+    .slide-2.active .offer-title{animation:dropDown 1s both .2s;}
+    
+    .slide-2 .service-buttons{opacity:0;}
+    .slide-2.active .service-buttons{animation:fadeIn 0.5s both .5s;display:flex;flex-direction:column;gap:.5rem;align-items:center;}
+    
+    /* Animación secuencial para botones */
+    .slide-2 .service-buttons button{opacity:0;transform:translateY(20px);}
+    .slide-2.active .service-buttons button:nth-child(1){animation:fadeInUp 0.5s both 0.7s;}
+    .slide-2.active .service-buttons button:nth-child(2){animation:fadeInUp 0.5s both 0.9s;}
+    .slide-2.active .service-buttons button:nth-child(3){animation:fadeInUp 0.5s both 1.1s;}
+    .slide-2.active .service-buttons button:nth-child(4){animation:fadeInUp 0.5s both 1.3s;}
+    .slide-2.active .service-buttons button:nth-child(5){animation:fadeInUp 0.5s both 1.5s;}
+    .slide-2.active .service-buttons button:nth-child(6){animation:fadeInUp 0.5s both 1.7s;}
+    .slide-2.active .service-buttons button:nth-child(7){animation:fadeInUp 0.5s both 1.9s;}
+
+    /* Botones redondeados */
+    .slide-2 .service-buttons button{
+      border-radius:50px;padding:.75rem 1.5rem;min-width:280px;border:2px solid #fff;
+      background:rgba(255,255,255,.15);color:#fff;font-weight:600;cursor:pointer;transition:background .3s;
+    }
+    .slide-2 .service-buttons button:hover{background:#fff;color:#222;}
+
+    /* SLIDE 3: Robot animado */
+    .slide-3 .offer-title{transform:translateX(-100px);opacity:0;}
+    .slide-3.active .offer-title{animation:slideInLeft 1s both .2s;}
+    
+    .slide-3 .offer-subtitle{transform:translateX(100px);opacity:0;}
+    .slide-3.active .offer-subtitle{animation:slideInRight 1s both .4s;}
+    
+    .slide-3 .robot{opacity:0;}
+    .slide-3.active .robot{animation:moveRobot 3s ease-in-out 1.2s both;}
+    
+    .slide-3 .whatsapp-btn{opacity:0;}
+    .slide-3.active .whatsapp-btn{animation:fadeIn 1s both 4.2s;display:inline-flex;align-items:center;gap:.5rem;background:#25D366;color:#fff;padding:.75rem 1.5rem;border-radius:50px;text-decoration:none;font-weight:700;}
+
+    /* SLIDE 4: Video */
+    .slide-4 .video-box{opacity:0;transform:scale(0.8);}
+    .slide-4.active .video-box{animation:fadeIn 1s both .3s;width:80%;max-width:700px;margin:0 auto;border-radius:12px;overflow:hidden;box-shadow:0 8px 25px rgba(0,0,0,.5);}
+    .slide-4 video{width:100%;display:block;}
+    .slide-4 .cotiza-btn{opacity:0;}
+    .slide-4.active .cotiza-btn{animation:fadeIn 1s both 1s;display:inline-block;margin-top:1.5rem;background:#25D366;color:#fff;padding:.75rem 2rem;border-radius:50px;text-decoration:none;font-weight:700;}
+
+    /* SLIDE 5: E-commerce - MODIFICADO CON SCROLL HORIZONTAL */
+    .slide-5 .ecommerce-content {
+      width: 95%;
+      max-width: 100%;
+      margin: 0 auto;
+      padding: 20px;
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 15px;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+      height: 85%;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .slide-5 .rotating-banner {
+      background: linear-gradient(135deg, #2196F3, #9C27B0);
+      color: white;
+      padding: 15px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      text-align: center;
+      font-size: 1.5rem;
+      font-weight: bold;
+      min-height: 70px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .slide-5 .banner-message {
+      position: absolute;
+      opacity: 0;
+      transition: opacity 1s ease-in-out;
+    }
+
+    .slide-5 .banner-message.active {
+      opacity: 1;
+    }
+
+    .slide-5 .products-scroll-container {
+      overflow-x: auto;
+      white-space: nowrap;
+      padding: 15px 5px;
+      margin-bottom: 10px;
+      flex-grow: 1;
+      scroll-behavior: smooth;
+    }
+
+    .slide-5 .products-grid {
+      display: inline-flex;
+      gap: 20px;
+      padding: 0 10px;
+    }
+
+    .slide-5 .product-card {
+      background: white;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      transition: transform 0.3s, box-shadow 0.3s;
+      width: 250px;
+      display: inline-block;
+      vertical-align: top;
+      white-space: normal;
+    }
+
+    .slide-5 .product-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+    }
+
+    .slide-5 .product-image {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      border-bottom: 1px solid #eee;
+      cursor: pointer;
+    }
+
+    .slide-5 .product-info {
+      padding: 15px;
+    }
+
+    .slide-5 .product-name {
+      font-size: 1.2rem;
+      font-weight: bold;
+      margin-bottom: 10px;
+      color: #2c3e50;
+    }
+
+    .slide-5 .product-price {
+      color: #e74c3c;
+      font-size: 1.3rem;
+      font-weight: bold;
+      margin-bottom: 15px;
+    }
+
+    .slide-5 .view-detail-btn {
+      background: #2196F3;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+      width: 100%;
+      font-weight: bold;
+      transition: background 0.3s;
+    }
+
+    .slide-5 .view-detail-btn:hover {
+      background: #1976D2;
+    }
+
+    /* Scrollbar personalizado para el contenedor de productos */
+    .slide-5 .products-scroll-container::-webkit-scrollbar {
+      height: 10px;
+    }
+
+    .slide-5 .products-scroll-container::-webkit-scrollbar-track {
+      background: #f1f1f1;
+      border-radius: 5px;
+    }
+
+    .slide-5 .products-scroll-container::-webkit-scrollbar-thumb {
+      background: #888;
+      border-radius: 5px;
+    }
+
+    .slide-5 .products-scroll-container::-webkit-scrollbar-thumb:hover {
+      background: #555;
+    }
+
+    /* ===== ESTILOS PARA EL CARRUSEL DE IMÁGENES EN MODAL DE PRODUCTO ===== */
+    .product-modal-image-container {
+      position: relative;
+      width: 100%;
+      overflow: hidden;
+      border-radius: 8px;
+    }
+
+    .product-modal-main-image {
+      width: 100%;
+      height: 400px;
+      object-fit: cover;
+      border-radius: 8px;
+      transition: opacity 0.3s ease;
+    }
+
+    .product-modal-arrows {
+      position: absolute;
+      top: 50%;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      padding: 0 15px;
+      transform: translateY(-50%);
+      z-index: 10;
+    }
+
+    .product-modal-arrow {
+      background: rgba(0, 0, 0, 0.6);
+      color: white;
+      border: none;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      font-size: 18px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.3s;
+    }
+
+    .product-modal-arrow:hover {
+      background: rgba(0, 0, 0, 0.8);
+    }
+
+    .product-modal-dots {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 15px;
+    }
+
+    .product-modal-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #ddd;
+      border: none;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .product-modal-dot.active {
+      background: #2196F3;
+    }
+
+    .product-modal-thumbnails {
+      display: flex;
+      gap: 10px;
+      margin-top: 15px;
+      overflow-x: auto;
+      padding: 5px 0;
+    }
+
+    .product-modal-thumbnail {
+      width: 60px;
+      height: 60px;
+      object-fit: cover;
+      border-radius: 4px;
+      cursor: pointer;
+      border: 2px solid transparent;
+      transition: border-color 0.3s;
+    }
+
+    .product-modal-thumbnail.active {
+      border-color: #2196F3;
+    }
+
+    .product-modal-thumbnail:hover {
+      border-color: #1976D2;
+    }
+
+    /* Modal de producto MEJORADO */
+    .product-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.7);
+      z-index: 1000;
+      overflow-y: auto;
+    }
+
+    .product-modal-content {
+      background: white;
+      margin: 5% auto;
+      padding: 20px;
+      border-radius: 10px;
+      width: 90%;
+      max-width: 800px;
+      position: relative;
+    }
+
+    .product-modal-close {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      font-size: 24px;
+      cursor: pointer;
+      color: #555;
+    }
+
+    .product-modal-body {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .product-modal-image {
+      flex: 1;
+      min-width: 300px;
+    }
+
+    .product-modal-details {
+      flex: 1;
+      min-width: 300px;
+    }
+
+    .product-modal-name {
+      font-size: 1.5rem;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    .product-modal-price {
+      font-size: 1.3rem;
+      color: #4CAF50;
+      font-weight: bold;
+      margin-bottom: 20px;
+    }
+
+    .product-description {
+      font-size: 1.1rem;
+      line-height: 1.6;
+      color: #555;
+      margin-bottom: 20px;
+      font-family: 'Arial', sans-serif;
+    }
+
+    .quantity-selector {
+      display: flex;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .quantity-selector label {
+      margin-right: 10px;
+      font-weight: bold;
+    }
+
+    .quantity-selector input {
+      width: 60px;
+      padding: 5px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      text-align: center;
+    }
+
+    .total-price {
+      font-size: 1.3rem;
+      font-weight: bold;
+      margin-bottom: 20px;
+      color: #2196F3;
+    }
+
+    .modal-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .modal-btn {
+      padding: 10px 15px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background 0.3s;
+    }
+
+    .buy-btn {
+      background: #4CAF50;
+      color: white;
+    }
+
+    .print-btn {
+      background: #FF9800;
+      color: white;
+    }
+
+    .whatsapp-btn-modal {
+      background: #25D366;
+      color: white;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .close-btn {
+      background: #f44336;
+      color: white;
+    }
+
+    .email-input {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      margin-bottom: 15px;
+    }
+
+    /* Modal de pago Bolt */
+    .bolt-payment-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.7);
+      z-index: 1100;
+      overflow-y: auto;
+    }
+
+    .bolt-payment-content {
+      background: white;
+      margin: 10% auto;
+      padding: 25px;
+      border-radius: 10px;
+      width: 90%;
+      max-width: 500px;
+      position: relative;
+    }
+
+    .bolt-payment-close {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      font-size: 24px;
+      cursor: pointer;
+      color: #555;
+    }
+
+    .bolt-input {
+      width: 100%;
+      padding: 12px;
+      margin: 8px 0 20px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      box-sizing: border-box;
+    }
+
+    .bolt-submit-btn {
+      background: #4CAF50;
+      color: white;
+      border: none;
+      padding: 15px 30px;
+      border-radius: 50px;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 1.1rem;
+      width: 100%;
+      transition: background 0.3s;
+    }
+
+    .bolt-submit-btn:hover {
+      background: #45a049;
+    }
+
+    /* Animación de pago exitoso */
+    .payment-success {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.8);
+      z-index: 1200;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .success-animation {
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      text-align: center;
+      animation: pulse 2s infinite;
+    }
+
+    .success-animation h2 {
+      color: #4CAF50;
+      margin-bottom: 15px;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+
+    /* Keyframes de animación */
+    @keyframes dropDown{0%{transform:translateY(-100px);opacity:0;}100%{transform:translateY(0);opacity:1;}}
+    @keyframes slideInLeft{0%{transform:translateX(-100px);opacity:0;}100%{transform:translateX(0);opacity:1;}}
+    @keyframes slideInRight{0%{transform:translateX(100px);opacity:0;}100%{transform:translateX(0);opacity:1;}}
+    @keyframes fadeIn{0%{opacity:0;}100%{opacity:1;}}
+    @keyframes fadeInUp{0%{opacity:0;transform:translateY(20px);}100%{opacity:1;transform:translateY(0);}}
+    @keyframes moveRobot{
+      0%{transform:translateX(-150px) rotate(-10deg);opacity:0;}
+      50%{transform:translateX(0) rotate(5deg);opacity:1;}
+      100%{transform:translateX(150px) rotate(-5deg);opacity:0;}
+    }
+
+    /* Imagen de robot */
+    .robot{
+      width: 100px;
+      height: 100px;
+      background-image: url('/imagenes/ofertaaplicacioncelular.jpg');
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+      margin: 20px auto;
+    }
+
+    /* Controles del slider */
+    .hero-controls{position:absolute;top:50%;transform:translateY(-50%);width:100%;display:flex;justify-content:space-between;padding:0 2rem;z-index:10;pointer-events:none;}
+    .control-btn{pointer-events:all;background:rgba(0,0,0,.5);color:#fff;border:none;font-size:2rem;line-height:1;width:50px;height:50px;border-radius:50%;cursor:pointer;transition:background .3s;}
+    .control-btn:hover{background:rgba(0,0,0,.8);}
+
+    /* Botón para actualizar fondos */
+    .hero-bg-btn{position:absolute;top:20px;right:20px;background:rgba(0,0,0,.7);color:#fff;border:none;padding:8px 15px;border-radius:5px;cursor:pointer;z-index:10;}
+
+    /* ===== ESTILOS PARA BOTONES CTA ===== */
+    .cta-button {
+        display: inline-block;
+        background-color: rgba(255, 255, 255, 0.15);
+        color: white;
+        padding: 0.8rem 2rem;
+        border: 2px solid rgba(255, 255, 255, 0.8);
+        border-radius: 50px;
+        text-decoration: none;
+        font-size: 1.1rem;
+        font-weight: bold;
+        transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
+        text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+        margin-top: 1rem;
+    }
+    .cta-button:hover, .cta-button:focus {
+        background-color: rgba(255, 255, 255, 0.9);
+        color: #333;
+        transform: translateY(-3px);
+        text-shadow: none;
+    }
+
+    /* ===== SECCIONES DE CONTENIDO ===== */
+    .section-padding {
+        padding-top: 3rem;
+        padding-bottom: 3rem;
+    }
+    .text-center {
+        text-align: center;
+    }
+    .bg-white {
+        background-color: #fff;
+    }
+    .section-title {
+        font-size: 1.875rem;
+        font-weight: 700;
+        color: #2d3748;
+        margin-bottom: 1.5rem;
+    }
+     .section-subtitle {
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: #2d3748;
+        margin-bottom: 1rem;
+    }
+    .section-text {
+        font-size: 1.125rem;
+        color: #4a5568;
+        max-width: 48rem;
+        margin-left: auto;
+        margin-right: auto;
+        margin-bottom: 2rem;
+    }
+
+    /* Layout para imágenes rectangulares en todas las secciones */
+    .rectangular-images-grid {
+        display: grid;
+        grid-template-columns: repeat(1, 1fr);
+        gap: 1.5rem;
+        margin-top: 2rem;
+    }
+    .rectangular-images-grid img {
+      width: 100%;
+      height: auto;
+      border-radius: 0.5rem;
+      box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+    
+    .rectangular-images-grid img:hover {
+      transform: scale(1.02);
+    }
+
+    /* ===== SECCIONES CON FONDO DE IMAGEN ===== */
+    .service-background-section {
+        position: relative;
+        padding: 5rem 1rem;
+        background-size: cover;
+        background-position: center;
+        color: #fff;
+        text-align: center;
+        overflow: hidden;
+        min-height: 70vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    /* Efecto de zoom para el fondo */
+    .service-background-section {
+        animation: backgroundZoom 20s ease-in-out infinite;
+    }
+    
+    @keyframes backgroundZoom {
+        0% { background-size: 100% auto; }
+        50% { background-size: 110% auto; }
+        100% { background-size: 100% auto; }
+    }
+    
+    /* Overlay oscuro para mejorar legibilidad */
+    .service-background-section::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(0, 0, 0, 0.1); /* Fondo oscuro semi-transparente */
+        z-index: 1;
+    }
+    
+    /* Asegurar que el contenido esté por encima del fondo */
+    .service-background-section .container {
+        position: relative;
+        z-index: 2;
+    }
+
+    /* Galería */
+    .gallery-grid {
+        display: grid;
+        grid-template-columns: repeat(1, 1fr);
+        gap: 1.5rem;
+    }
+    .gallery-grid img {
+      width: 100%;
+      height: auto;
+      object-fit: cover;
+      aspect-ratio: 3 / 2;
+      border-radius: 0.5rem;
+      box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05);
+      transition: box-shadow 0.3s ease, transform 0.3s ease;
+      cursor: pointer;
+    }
+    .gallery-grid img:hover {
+      box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1), 0 10px 10px -5px rgba(0,0,0,0.04);
+      transform: scale(1.02);
+    }
+
+    /* Formulario de Contacto MEJORADO */
+    #contact {
+        padding-top: 3rem;
+        padding-bottom: 3rem;
+        background-color: #f7fafc;
+        position: relative;
+    }
+     #contact::before {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 300px;
+        height: 300px;
+        background-image: url('/imagenes/Logo Be Rabbit FInal.png');
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: contain;
+        opacity: 0.05;
+        transform: translate(-50%, -50%);
+        z-index: 0;
+    }
+
+    #contact > .container {
+         max-width: 48rem;
+         position: relative;
+         z-index: 1;
+    }
+    #contact form {
+        background-color: #fff;
+        padding: 2rem;
+        border-radius: 0.5rem;
+        box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05);
+        text-align: left;
+    }
+    #contact label {
+        display: block;
+        color: #4a5568;
+        font-size: 0.875rem;
+        font-weight: bold;
+        margin-bottom: 0.5rem;
+    }
+    #contact input[type="text"],
+    #contact input[type="email"],
+    #contact input[type="tel"],
+    #contact textarea {
+        box-shadow: 0 1px 2px 0 rgba(0,0,0,0.5);
+        appearance: none;
+        border: 1px solid #e2e8f0;
+        border-radius: 0.375rem;
+        width: 100%;
+        padding: 0.75rem 1rem;
+        color: #4a5568;
+        line-height: 1.25;
+        margin-bottom: 1.25rem;
+    }
+    #contact input[type="text"]:focus,
+    #contact input[type="email"]:focus,
+    #contact input[type="tel"]:focus,
+    #contact textarea:focus {
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(59,130,246,0.5);
+        border-color: transparent;
+    }
+    #contact textarea {
+        min-height: 100px;
+    }
+    
+    .whatsapp-button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #25D366;
+        color: white;
+        font-weight: bold;
+        padding: 0.75rem 1.5rem;
+        border-radius: 9999px;
+        border: none;
+        cursor: pointer;
+        text-decoration: none;
+        transition: background-color 0.3s ease, transform 0.3s ease;
+        width: 100%;
+        max-width: 300px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .whatsapp-button svg {
+        width: 1.5rem;
+        height: 1.5rem;
+        margin-right: 0.5rem;
+    }
+    .whatsapp-button:hover {
+        background-color: #1DAE54;
+        transform: scale(1.05);
+    }
+
+    .contact-submit-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #2196F3;
+        color: white;
+        font-weight: bold;
+        padding: 0.75rem 1.5rem;
+        border-radius: 9999px;
+        border: none;
+        cursor: pointer;
+        text-decoration: none;
+        transition: background-color 0.3s ease, transform 0.3s ease;
+        width: 100%;
+        max-width: 300px;
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: 10px;
+    }
+    .contact-submit-btn:hover {
+        background-color: #1976D2;
+        transform: scale(1.05);
+    }
+
+    .social-media-icons {
+        text-align: center;
+        margin-top: 1.5rem;
+    }
+    .social-media-icons a {
+        display: inline-block;
+        margin: 0 0.75rem;
+        text-decoration: none;
+    }
+    .social-media-icons svg {
+        width: 2rem;
+        height: 2rem;
+        fill: #4a5568;
+        transition: fill 0.3s ease, transform 0.3s ease;
+    }
+    .social-media-icons a:hover svg {
+        fill: #2b6cb0;
+        transform: scale(1.1);
+    }
+    
+    .form-field-margin {
+        margin-bottom: 1.25rem;
+    }
+    .form-textarea-margin {
+        margin-bottom: 1.5rem;
+    }
+
+    /* Footer */
+    footer {
+        background: #2d3748;
+        color: #fff;
+        text-align: center;
+        padding: 2rem 0;
+    }
+    footer p {
+        font-size: 0.875rem;
+    }
+    footer .footer-subtext {
+        font-size: 0.75rem;
+        margin-top: 0.5rem;
+    }
+
+    /* Estilos para botones de imagen */
+    .image-container {
+        position: relative;
+        display: inline-block;
+    }
+    
+    .image-btn {
+        position: absolute;
+        bottom: 10px;
+        right: 10px;
+        background-color: rgba(0,0,0,0.7);
+        color: white;
+        border: none;
+        padding: 5px 10px;
+        border-radius: 3px;
+        cursor: pointer;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        z-index: 10;
+    }
+    
+    .image-container:hover .image-btn {
+        opacity: 1;
+    }
+    
+    .logo-editor {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        margin-bottom: 20px;
+    }
+    
+    .logo-preview {
+        max-width: 150px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        padding: 5px;
+    }
+    
+    /* Modal de imagen */
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0,0,0,0.7);
+    }
+    
+    .modal-content {
+        background-color: #fefefe;
+        margin: 10% auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 80%;
+        max-width: 600px;
+        border-radius: 10px;
+        position: relative;
+    }
+    
+    .close {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+    
+    .close:hover {
+        color: black;
+    }
+    
+    .image-upload-container {
+        margin: 20px 0;
+    }
+    
+    .image-preview {
+        max-width: 100%;
+        max-height: 300px;
+        margin-top: 15px;
+        display: none;
+    }
+    
+    /* Estilos para la versión pública */
+    .public-version .image-btn,
+    .public-version .action-buttons,
+    .public-version .hero-bg-btn,
+    .public-version #update-logo-btn {
+        display: none;
+    }
+
+    /* ===== MODAL PARA IMÁGENES AMPLIADAS ===== */
+    .image-zoom-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.95);
+      z-index: 2000;
+      overflow: hidden;
+    }
+    
+    .image-zoom-content {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      max-width: 90%;
+      max-height: 90%;
+      object-fit: contain;
+    }
+    
+    .image-zoom-caption {
+      position: absolute;
+      bottom: 20px;
+      left: 0;
+      width: 100%;
+      text-align: center;
+      color: white;
+      font-size: 1.2rem;
+      padding: 10px;
+      background-color: rgba(0, 0, 0, 0.7);
+    }
+    
+    .image-zoom-close {
+      position: absolute;
+      top: 20px;
+      right: 30px;
+      color: white;
+      font-size: 40px;
+      font-weight: bold;
+      cursor: pointer;
+      z-index: 2001;
+    }
+    
+    .image-zoom-close:hover {
+      color: #ccc;
+    }
+    
+    .image-zoom-nav {
+      position: absolute;
+      top: 50%;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      padding: 0 20px;
+      transform: translateY(-50%);
+      z-index: 2001;
+    }
+    
+    .image-zoom-nav button {
+      background: rgba(0, 0, 0, 0.5);
+      color: white;
+      border: none;
+      font-size: 30px;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    
+    .image-zoom-nav button:hover {
+      background: rgba(0, 0, 0, 0.8);
+    }
+
+    /* ===== NUEVOS ESTILOS PARA SECCIONES CON PRODUCTOS ===== */
+    .product-item {
+      background: white;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      transition: transform 0.3s, box-shadow 0.3s;
+      margin-bottom: 2rem;
+    }
+
+    .product-item:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+    }
+
+    .product-image-container {
+      position: relative;
+      width: 100%;
+      height: 250px;
+      overflow: hidden;
+    }
+
+    .product-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.3s ease;
+    }
+
+    .product-item:hover .product-image {
+      transform: scale(1.05);
+    }
+
+    .product-info-container {
+      padding: 20px;
+    }
+
+    .product-title {
+      font-size: 1.3rem;
+      font-weight: bold;
+      margin-bottom: 10px;
+      color: #2c3e50;
+    }
+
+    .product-description-short {
+      color: #666;
+      margin-bottom: 15px;
+      line-height: 1.5;
+    }
+
+    .product-price {
+      font-size: 1.4rem;
+      font-weight: bold;
+      color: #e74c3c;
+      margin-bottom: 15px;
+    }
+
+    .view-product-btn {
+      background: #2196F3;
+      color: white;
+      border: none;
+      padding: 12px 25px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background 0.3s;
+      width: 100%;
+    }
+
+    .view-product-btn:hover {
+      background: #1976D2;
+    }
+
+    /* Grid para productos en secciones */
+    .products-section-grid {
+      display: grid;
+      grid-template-columns: repeat(1, 1fr);
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+
+    /* ===== ESTILOS PARA SECCIONES CON DESCRIPCIONES DEBajo DE CADA FOTO ===== */
+    .image-with-description {
+      background: white;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .image-with-description:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+    }
+
+    .image-description-container {
+      padding: 20px;
+      text-align: center;
+    }
+
+    .image-title {
+      font-size: 1.3rem;
+      font-weight: bold;
+      margin-bottom: 10px;
+      color: #2c3e50;
+    }
+
+    .image-description-text {
+      color: #666;
+      line-height: 1.5;
+    }
+
+    @media (min-width: 768px) {
+      .products-section-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .rectangular-images-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .gallery-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (min-width: 1024px) {
+      .products-section-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+      .rectangular-images-grid {
+        grid-template-columns: repeat(4, 1fr);
+      }
+      .gallery-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    @media (max-width: 768px) {
+        #hero { min-height: 70vh; }
+        #hero h1 { font-size: 2.2rem; }
+        .cta-button { padding: 0.7rem 1.5rem; font-size: 1rem; }
+        .section-title { font-size: 1.5rem; }
+        .section-text { font-size: 1rem; }
+        .hero-bg-btn {
+            top: 10px;
+            right: 10px;
+            padding: 5px 10px;
+            font-size: 0.8rem;
+        }
+        .product-modal-body {
+            flex-direction: column;
+        }
+        .slide-5 .product-card {
+            width: 220px;
+        }
+        .product-modal-main-image {
+          height: 300px;
+        }
+        .image-zoom-nav {
+          padding: 0 10px;
+        }
+        .image-zoom-nav button {
+          width: 40px;
+          height: 40px;
+          font-size: 20px;
+        }
+        .service-background-section {
+            padding: 3rem 1rem;
+            min-height: 60vh;
+        }
+        .product-image-container {
+          height: 200px;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .container { width: 95%; }
+        #hero h1 { font-size: 1.8rem; }
+        .cta-button { padding: 0.6rem 1.2rem; font-size: 0.9rem; }
+        .whatsapp-button {
+            padding: 0.6rem 1rem;
+            font-size: 0.9rem;
+        }
+        .whatsapp-button svg {
+            width: 1.25rem;
+            height: 1.25rem;
+        }
+        .social-media-icons svg {
+            width: 1.75rem;
+            height: 1.75rem;
+        }
+        #contact::before {
+            width: 200px;
+            height: 200px;
+        }
+        .action-buttons {
+            flex-direction: column;
+            align-items: center;
+        }
+        .modal-buttons {
+            flex-direction: column;
+        }
+        .slide-5 .product-card {
+            width: 200px;
+        }
+        .product-modal-main-image {
+          height: 250px;
+        }
+        .product-modal-thumbnail {
+          width: 50px;
+          height: 50px;
+        }
+        .service-background-section {
+            padding: 2rem 1rem;
+            min-height: 50vh;
+        }
+        .products-section-grid {
+          grid-template-columns: 1fr;
+        }
+        .rectangular-images-grid {
+          grid-template-columns: 1fr;
+        }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="container" style="display:flex;justify-content:space-between;align-items:center;">
+    <a href="#hero">
+      <img src="/imagenes/Logo Be Rabbit FInal.png" alt="Logo Ilutronic" id="logo">
+    </a>
+    <div class="action-buttons">
+      <button class="action-btn reset-btn" id="reset-btn">Borrar listas</button>
+      <button class="action-btn publish-btn" id="publish-btn">Publicar</button>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section id="hero">
+    <button class="hero-bg-btn" id="update-hero-bg">Actualizar Fondo</button>
+
+    <div class="hero-controls">
+      <button class="control-btn" onclick="moveSlide(-1)">&#10094;</button>
+      <button class="control-btn" onclick="moveSlide(1)">&#10095;</button>
+    </div>
+
+    <div class="hero-slides">
+      <!-- Slide 1 -->
+      <div class="hero-slide slide-1 active">
+        <div class="slide-content">
+          <h1 class="main-title">Ilutronic Soluciones</h1>
+          <h2 class="sub-title">Ingeniería Electrónica y Robótica</h2>
+          <div class="schedule">
+            <img src="https://cdn-icons-png.flaticon.com/512/2784/2784459.png" alt="Reloj" class="clock-icon" style="width:24px;height:24px;filter:invert(1);">
+            <span class="schedule-text">Lunes a Viernes 8am a 6pm</span>
+          </div>
+          <a href="#contact" class="cta-button">Contáctanos</a>
+        </div>
+      </div>
+
+      <!-- Slide 2 con navegación a secciones -->
+      <div class="hero-slide slide-2">
+        <div class="slide-content">
+          <h2 class="offer-title">Nuestros Servicios</h2>
+          <div class="service-buttons">
+            <button onclick="scrollToSection('diseno-electronico')">Diseño Electrónico</button>
+            <button onclick="scrollToSection('robotica')">Desarrollo de Campañas Fotográficas</button>
+            <button onclick="scrollToSection('impresion-3d')">Impresión 3D</button>
+            <button onclick="scrollToSection('venta-componentes')">Venta de Componentes</button>
+            <button onclick="scrollToSection('desarrollo-software')">Desarrollo de Software</button>
+            <button onclick="scrollToSection('proyectos-iot')">Proyectos IoT</button>
+            <button onclick="scrollToSection('consultoria')">Consultoría Técnica</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Slide 3 -->
+      <div class="hero-slide slide-3">
+        <div class="slide-content">
+          <h2 class="offer-title">Ofertas del Mes</h2>
+          <p class="offer-subtitle">Kit Arduino Starter por solo $150.000</p>
+          <div class="robot"></div>
+          <a href="https://wa.me/573127439018" target="_blank" class="whatsapp-btn">
+            <img src="https://cdn-icons-png.flaticon.com/512/220/220236.png" width="24" alt="WhatsApp"> COTIZA YA
+          </a>
+        </div>
+      </div>
+
+      <!-- Slide 4 -->
+      <div class="hero-slide slide-4">
+        <div class="slide-content">
+          <div class="video-box">
+            <video class="hero-video" controls autoplay muted>
+              <source src="/videos/leon.mp4" type="video/mp4">
+              Tu navegador no soporta video.
+            </video>
+          </div>
+          <a href="https://wa.me/573127439018" target="_blank" class="cotiza-btn">COTIZA YA</a>
+        </div>
+      </div>
+
+      <!-- Slide 5 - E-commerce MODIFICADO CON SCROLL HORIZONTAL -->
+      <div class="hero-slide slide-5">
+        <div class="ecommerce-content">
+          <div class="rotating-banner" id="rotating-banner">
+            <div class="banner-message active">¡Servicio de impresión 3D disponible!</div>
+            <div class="banner-message">Venta de Arduino, Raspberry Pi y componentes</div>
+            <div class="banner-message">Desarrollo de Aplicaciones y Paginas Web con stadisticas y pagos </div>
+            <div class="banner-message">Aplicaciones moviles Desarrollo de Software</div>
+            <div class="banner-message">Diseño de circuitos electrónicos personalizados</div>
+            <div class="banner-message">Desarrollo de robots y sistemas automatizados</div>
+            <div class="banner-message">Proyectos IoT y domótica</div>
+          </div>
+          
+          <h2 style="text-align:center;color:#333;margin-bottom:20px;">Nuestros Productos</h2>
+          
+          <div class="products-scroll-container" id="products-scroll-container">
+            <div class="products-grid" id="products-grid">
+              <!-- Los productos se cargarán dinámicamente con JavaScript -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== SECCIONES DE CONTENIDO ===== -->
+
+  <!-- SECCIÓN: Explora Nuestros Servicios -->
+  <section id="secondary-content" class="section-padding text-center bg-white">
+    <div class="container">
+      <h2 class="section-title">Explora Nuestros Servicios</h2>
+      <p class="section-text">Descubre cómo podemos ayudarte con soluciones innovadoras en electrónica, robótica e impresión 3D.</p>
+      <div class="rectangular-images-grid">
+        <div class="image-with-description">
+          <div class="image-container">
+            <img src="/imagenes/Portada3_.png" alt="Diseño de circuitos" class="editable-img" data-key="rect1">
+            <button class="image-btn update-img-btn" data-target="rect1">Actualizar</button>
+          </div>
+          <div class="image-description-container">
+            <h3 class="image-title">Diseño de Circuitos Electrónicos</h3>
+            <p class="image-description-text">Desarrollamos circuitos electrónicos personalizados para aplicaciones específicas, desde prototipos hasta producción en masa.</p>
+          </div>
+        </div>
+        <div class="image-with-description">
+          <div class="image-container">
+            <img src="/imagenes/Socialmediacombo.jpg" alt="Robótica educativa" class="editable-img" data-key="rect2">
+            <button class="image-btn update-img-btn" data-target="rect2">Actualizar</button>
+          </div>
+          <div class="image-description-container">
+            <h3 class="image-title">Robótica Educativa</h3>
+            <p class="image-description-text">Implementamos soluciones de robótica para instituciones educativas, incluyendo kits didácticos y programas de formación.</p>
+          </div>
+        </div>
+        <div class="image-with-description">
+          <div class="image-container">
+            <img src="/imagenes/VolanteOFerta.jpg" alt="Impresión 3D" class="editable-img" data-key="rect3">
+            <button class="image-btn update-img-btn" data-target="rect3">Actualizar</button>
+          </div>
+          <div class="image-description-container">
+            <h3 class="image-title">Impresión 3D Profesional</h3>
+            <p class="image-description-text">Ofrecemos servicios de impresión 3D de alta calidad con diferentes materiales y tecnologías para diversos sectores.</p>
+          </div>
+        </div>
+        <div class="image-with-description">
+          <div class="image-container">
+            <img src="/imagenes/Redessociales.jpg" alt="Proyectos IoT" class="editable-img" data-key="rect4">
+            <button class="image-btn update-img-btn" data-target="rect4">Actualizar</button>
+          </div>
+          <div class="image-description-container">
+            <h3 class="image-title">Soluciones IoT</h3>
+            <p class="image-description-text">Desarrollamos sistemas IoT completos para domótica, industria, agricultura y más, con conectividad y análisis de datos.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECCIÓN: Diseño Electrónico -->
+  <section id="diseno-electronico" class="service-background-section" style="background-image:url('/imagenes/portada diseñoelr.png');">
+    <div class="container">
+      <h2 class="section-title">Diseño Electrónico</h2>
+      <p class="section-text">Diseñamos circuitos electrónicos personalizados para tus proyectos, desde prototipos hasta productos finales.</p>
+      <div class="rectangular-images-grid">
+        <div class="image-with-description">
+          <div class="image-container">
+            <img src="/imagenes/diseñoElectronico.webp" alt="PCB Design" class="editable-img" data-key="event1">
+            <button class="image-btn update-img-btn" data-target="event1">Actualizar</button>
+          </div>
+          <div class="image-description-container">
+            <h3 class="image-title">Diseño de PCB</h3>
+            <p class="image-description-text">Creación de placas de circuito impreso optimizadas para funcionalidad, manufactura y costo.</p>
+          </div>
+        </div>
+        <div class="image-with-description">
+          <div class="image-container">
+            <img src="/imagenes/diseñoElectronico2.webp" alt="Circuit Simulation" class="editable-img" data-key="event2">
+            <button class="image-btn update-img-btn" data-target="event2">Actualizar</button>
+          </div>
+          <div class="image-description-container">
+            <h3 class="image-title">Simulación de Circuitos</h3>
+            <p class="image-description-text">Análisis y simulación de circuitos electrónicos para validar su funcionamiento antes de la fabricación.</p>
+          </div>
+        </div>
+        <div class="image-with-description">
+          <div class="image-container">
+            <img src="/imagenes/diseñoElectronicPort2.webp" alt="Component Selection" class="editable-img" data-key="event3">
+            <button class="image-btn update-img-btn" data-target="event3">Actualizar</button>
+          </div>
+          <div class="image-description-container">
+            <h3 class="image-title">Selección de Componentes</h3>
+            <p class="image-description-text">Asesoría en la selección de componentes electrónicos adecuados para cada aplicación y presupuesto.</p>
+          </div>
+        </div>
+        <div class="image-with-description">
+          <div class="image-container">
+            <img src="/imagenes/diseñoElectronic42.webp" alt="Prototyping" class="editable-img" data-key="event4">
+            <button class="image-btn update-img-btn" data-target="event4">Actualizar</button>
+          </div>
+          <div class="image-description-container">
+            <h3 class="image-title">Prototipado Rápido</h3>
+            <p class="image-description-text">Desarrollo de prototipos funcionales para validación de conceptos y pruebas de mercado.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECCIÓN: Desarrollo de Campañas Fotográficas -->
+  <section id="robotica" class="service-background-section" style="background-image:url('/imagenes/Portasocialmedia.jpg');">
+    <div class="container">
+      <h2 class="section-title">Desarrollo de Campañas Fotográficas</h2>
+      <p class="section-text">Desarrollamos campañas fotográficas profesionales para productos electrónicos, proyectos tecnológicos y contenido corporativo.</p>
+      <div class="rectangular-images-grid">
+        <div class="image-with-description">
+          <div class="image-container">
+            <img src="/imagenes/Redessociales.jpg" alt="Fotografía de Productos" class="editable-img" data-key="retrato1">
+            <button class="image-btn update-img-btn" data-target="retrato1">Actualizar</button>
+          </div>
+          <div class="image-description-container">
+            <h3 class="image-title">Fotografía de Productos</h3>
+            <p class="image-description-text">Sesiones fotográficas profesionales para destacar las características de tus productos electrónicos.</p>
+          </div>
+        </div>
+        <div class="image-with-description">
+          <div class="image-container">
+            <img src="/imagenes/ForgatosPublicitarios.jpg" alt="Campañas Publicitarias" class="editable-img" data-key="retrato2">
+            <button class="image-btn update-img-btn" data-target="retrato2">Actualizar</button>
+          </div>
+          <div class="image-description-container">
+            <h3 class="image-title">Campañas Publicitarias</h3>
+            <p class="image-description-text">Desarrollo de material visual para campañas de marketing digital y redes sociales.</p>
+          </div>
+        </div>
+        <div class="image-with-description">
+          <div class="image-container">
+            <img src="/imagenes/Hamburguesadiseño2.jpg" alt="Fotografía Corporativa" class="editable-img" data-key="retrato3">
+            <button class="image-btn update-img-btn" data-target="retrato3">Actualizar</button>
+          </div>
+          <div class="image-description-container">
+            <h3 class="image-title">Fotografía Corporativa</h3>
+            <p class="image-description-text">Sesiones fotográficas para equipo, instalaciones y eventos corporativos del sector tecnológico.</p>
+          </div>
+        </div>
+        <div class="image-with-description">
+          <div class="image-container">
+            <img src="/imagenes/obtimizacionwebapp.png" alt="Contenido Digital" class="editable-img" data-key="retrato4">
+            <button class="image-btn update-img-btn" data-target="retrato4">Actualizar</button>
+          </div>
+          <div class="image-description-container">
+            <h3 class="image-title">Contenido Digital</h3>
+            <p class="image-description-text">Creación de contenido visual optimizado para plataformas digitales y redes sociales.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== SECCIÓN IMPRESIÓN 3D MODIFICADA CON SISTEMA E-COMMERCE ===== -->
+  <section id="impresion-3d" class="service-background-section" style="background-image:url('/imagenes/impresion3d.png');">
+    <div class="container">
+      <h2 class="section-title">Impresión 3D</h2>
+      <p class="section-text">Ofrecemos servicios de impresión 3D, diseño de modelos y venta de filamentos para tus proyectos.</p>
+      <div class="products-section-grid" id="impresion3d-products">
+        <!-- Los productos de impresión 3D se cargarán dinámicamente -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== SECCIÓN VENTA DE COMPONENTES MODIFICADA CON SISTEMA E-COMMERCE ===== -->
+  <section id="venta-componentes" class="service-background-section" style="background-image:url('/imagenes/sofaback.jpg');">
+    <div class="container">
+      <h2 class="section-title">Venta de Componentes Electrónicos</h2>
+      <p class="section-text">Ofrecemos una amplia gama de componentes electrónicos, desde Arduino hasta sensores y módulos especializados.</p>
+      <div class="products-section-grid" id="componentes-products">
+        <!-- Los productos de componentes se cargarán dinámicamente -->
+      </div>
+    </div>
+  </section>
+
+  <!-- SECCIÓN: Desarrollo de Software -->
+  <section id="desarrollo-software" class="service-background-section" style="background-image:url('/imagenes/Portada1.jpg');">
+    <div class="container">
+      <h2 class="section-title">Desarrollo de Software</h2>
+      <p class="section-text">Programación de microcontroladores, desarrollo de aplicaciones móviles y software para sistemas embebidos.</p>
+      <div class="rectangular-images-grid">
+        <div class="image-with-description">
+          <div class="image-container">
+            <img src="/imagenes/celularoferta.jpeg" alt="Programación Arduino" class="editable-img" data-key="colchon1">
+            <button class="image-btn update-img-btn" data-target="colchon1">Actualizar</button>
+          </div>
+          <div class="image-description-container">
+            <h3 class="image-title">Programación de Microcontroladores</h3>
+            <p class="image-description-text">Desarrollo de firmware para Arduino, ESP32, Raspberry Pi y otros microcontroladores.</p>
+          </div>
+        </div>
+        <div class="image-with-description">
+          <div class="image-container">
+            <img src="/imagenes/Anuncio2.jpg" alt="Apps Móviles" class="editable-img" data-key="colchon2">
+            <button class="image-btn update-img-btn" data-target="colchon2">Actualizar</button>
+          </div>
+          <div class="image-description-container">
+            <h3 class="image-title">Aplicaciones Móviles</h3>
+            <p class="image-description-text">Desarrollo de apps nativas e híbridas para iOS y Android con conectividad IoT.</p>
+          </div>
+        </div>
+        <div class="image-with-description">
+          <div class="image-container">
+            <img src="/imagenes/Celularanuncio.jpeg" alt="Interfaces Gráficas" class="editable-img" data-key="colchon3">
+            <button class="image-btn update-img-btn" data-target="colchon3">Actualizar</button>
+          </div>
+          <div class="image-description-container">
+            <h3 class="image-title">Interfaces de Usuario</h3>
+            <p class="image-description-text">Diseño y desarrollo de interfaces gráficas intuitivas para sistemas embebidos.</p>
+          </div>
+        </div>
+        <div class="image-with-description">
+          <div class="image-container">
+            <img src="/imagenes/Shopinecomerce.jpg" alt="Sistemas Embebidos" class="editable-img" data-key="colchon4">
+            <button class="image-btn update-img-btn" data-target="colchon4">Actualizar</button>
+          </div>
+          <div class="image-description-container">
+            <h3 class="image-title">Sistemas Embebidos</h3>
+            <p class="image-description-text">Desarrollo de software para sistemas embebidos de alta confiabilidad y bajo consumo.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECCIÓN: Proyectos IoT -->
+  <section id="proyectos-iot" class="service-background-section" style="background-image:url('/imagenes/11.Proyectos_con_IoT.webp');">
+    <div class="container">
+      <h2 class="section-title">Proyectos IoT</h2>
+      <p class="section-text">Desarrollamos soluciones de Internet de las Cosas para domótica, agricultura, industria y más.</p>
+      <div class="rectangular-images-grid">
+        <div class="image-with-description">
+          <div class="image-container">
+            <img src="/imagenes/Proyectosiot.webp" alt="Domótica" class="editable-img" data-key="sofa-cama1">
+            <button class="image-btn update-img-btn" data-target="sofa-cama1">Actualizar</button>
+          </div>
+          <div class="image-description-container">
+            <h3 class="image-title">Domótica Inteligente</h3>
+            <p class="image-description-text">Sistemas de automatización residencial con control remoto y monitoreo en tiempo real.</p>
+          </div>
+        </div>
+        <div class="image-with-description">
+          <div class="image-container">
+            <img src="/imagenes/Proyectosiot2.webp" alt="Agricultura IoT" class="editable-img" data-key="sofa-cama2">
+            <button class="image-btn update-img-btn" data-target="sofa-cama2">Actualizar</button>
+          </div>
+          <div class="image-description-container">
+            <h3 class="image-title">Agricultura de Precisión</h3>
+            <p class="image-description-text">Sensores y sistemas IoT para optimización de riego, fertilización y monitoreo de cultivos.</p>
+          </div>
+        </div>
+        <div class="image-with-description">
+          <div class="image-container">
+            <img src="/imagenes/Proyectosiot3.webp" alt="Industria 4.0" class="editable-img" data-key="sofa-cama3">
+            <button class="image-btn update-img-btn" data-target="sofa-cama3">Actualizar</button>
+          </div>
+          <div class="image-description-container">
+            <h3 class="image-title">Industria 4.0</h3>
+            <p class="image-description-text">Implementación de IoT para monitorización de procesos industriales y mantenimiento predictivo.</p>
+          </div>
+        </div>
+        <div class="image-with-description">
+          <div class="image-container">
+            <img src="/imagenes/Proyectosiot4.webp" alt="Sensores IoT" class="editable-img" data-key="sofa-cama4">
+            <button class="image-btn update-img-btn" data-target="sofa-cama4">Actualizar</button>
+          </div>
+          <div class="image-description-container">
+            <h3 class="image-title">Redes de Sensores</h3>
+            <p class="image-description-text">Implementación de redes de sensores inalámbricos para recolección y análisis de datos.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECCIÓN: Consultoría Técnica -->
+  <section id="consultoria" class="service-background-section" style="background-image:url('/imagenes/ConsultoriaEmpre12.png');">
+    <div class="container">
+      <h2 class="section-title">Consultoría Técnica</h2>
+      <p class="section-text">Asesoramiento especializado en electrónica, robótica y automatización para empresas y proyectos personales.</p>
+      <div class="rectangular-images-grid">
+        <div class="image-with-description">
+          <div class="image-container">
+            <img src="/imagenes/ConsultoriaEmpre1.png" alt="Asesoramiento" class="editable-img" data-key="sala1">
+            <button class="image-btn update-img-btn" data-target="sala1">Actualizar</button>
+          </div>
+          <div class="image-description-container">
+            <h3 class="image-title">Asesoramiento Técnico</h3>
+            <p class="image-description-text">Consultoría especializada para la selección de tecnologías y componentes para tus proyectos.</p>
+          </div>
+        </div>
+        <div class="image-with-description">
+          <div class="image-container">
+            <img src="/imagenes/Consuelectro12.webp" alt="Soluciones Técnicas" class="editable-img" data-key="sala2">
+            <button class="image-btn update-img-btn" data-target="sala2">Actualizar</button>
+          </div>
+          <div class="image-description-container">
+            <h3 class="image-title">Soluciones Técnicas</h3>
+            <p class="image-description-text">Desarrollo de soluciones personalizadas para problemas técnicos específicos en electrónica.</p>
+          </div>
+        </div>
+        <div class="image-with-description">
+          <div class="image-container">
+            <img src="/imagenes/ConsultoriaAppAI.webp" alt="Capacitación" class="editable-img" data-key="sala3">
+            <button class="image-btn update-img-btn" data-target="sala3">Actualizar</button>
+          </div>
+          <div class="image-description-container">
+            <h3 class="image-title">Capacitación Especializada</h3>
+            <p class="image-description-text">Programas de formación en electrónica, programación y nuevas tecnologías para equipos.</p>
+          </div>
+        </div>
+        <div class="image-with-description">
+          <div class="image-container">
+            <img src="/imagenes/ConsultoriaAppA2I.webp" alt="Optimización" class="editable-img" data-key="sala4">
+            <button class="image-btn update-img-btn" data-target="sala4">Actualizar</button>
+          </div>
+          <div class="image-description-container">
+            <h3 class="image-title">Optimización de Procesos</h3>
+            <p class="image-description-text">Apoyamos con implementaciones tecnicas de aplicaciones con inteligencia artificial para destacar y mejorar la calidad de servicios y productos . Análisis y mejora de procesos existentes mediante la implementación de nuevas tecnologías.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECCIÓN: Galería de Proyectos -->
+  <section id="gallery" class="section-padding bg-white text-center">
+    <div class="container">
+      <h2 class="section-title">Galería de Proyectos</h2>
+      <p class="section-text">Aquí puedes ver algunos de nuestros proyectos realizados en electrónica, robótica e impresión 3D.</p>
+      <div class="gallery-grid">
+        <div class="image-with-description">
+          <div class="image-container">
+            <img src="/imagenes/Diseñoamburguesa.jpg" alt="Proyecto 1" class="editable-img" data-key="gallery1">
+            <button class="image-btn update-img-btn" data-target="gallery1">Actualizar</button>
+          </div>
+          <div class="image-description-container">
+            <h3 class="image-title">Campañas Publicitarias </h3>
+            <p class="image-description-text">Desarrollo de estación meteorológica IoT con sensores de temperatura, humedad y calidad del aire.</p>
+          </div>
+        </div>
+        <div class="image-with-description">
+          <div class="image-container">
+            <img src="/imagenes/RobotEducativo.avif" alt="Proyecto 2" class="editable-img" data-key="gallery2">
+            <button class="image-btn update-img-btn" data-target="gallery2">Actualizar</button>
+          </div>
+          <div class="image-description-container">
+            <h3 class="image-title">Robot de Seguimiento de Línea</h3>
+            <p class="image-description-text">Robot educativo con sensores infrarrojos para competencias de robótica y aprendizaje.</p>
+          </div>
+        </div>
+        <div class="image-with-description">
+          <div class="image-container">
+            <img src="/imagenes/Venta de Componentes Electrónicos2.webp" alt="Proyecto 3" class="editable-img" data-key="gallery3">
+            <button class="image-btn update-img-btn" data-target="gallery3">Actualizar</button>
+          </div>
+          <div class="image-description-container">
+            <h3 class="image-title">Sistema de Iluminación Inteligente</h3>
+            <p class="image-description-text">Control de iluminación automatizado con sensores de presencia y programación horaria.</p>
+          </div>
+        </div>
+        <div class="image-with-description">
+          <div class="image-container">
+            <img src="/imagenes/Redessociales.jpg" alt="Proyecto 4" class="editable-img" data-key="gallery4">
+            <button class="image-btn update-img-btn" data-target="gallery4">Actualizar</button>
+          </div>
+          <div class="image-description-container">
+            <h3 class="image-title">Brazo Robótico Educativo</h3>
+            <p class="image-description-text">Brazo robótico de 4 ejes controlado por Arduino para aplicaciones educativas y experimentación.</p>
+          </div>
+        </div>
+        <div class="image-with-description">
+          <div class="image-container">
+            <img src="/imagenes/brazo-robotico.jpg" alt="Proyecto 5" class="editable-img" data-key="gallery5">
+            <button class="image-btn update-img-btn" data-target="gallery5">Actualizar</button>
+          </div>
+          <div class="image-description-container">
+            <h3 class="image-title">Aplicaciones a celular para gestion empresarial</h3>
+            <p class="image-description-text">Sistema IoT para control de datos y funciones como de operaciones .</p>
+          </div>
+        </div>
+        <div class="image-with-description">
+          <div class="image-container">
+            <img src="/imagenes/David.jpg" alt="Proyecto 6" class="editable-img" data-key="gallery6">
+            <button class="image-btn update-img-btn" data-target="gallery6">Actualizar</button>
+          </div>
+          <div class="image-description-container">
+            <h3 class="image-title">Desarrollador de Aplicaciones </h3>
+            <p class="image-description-text">Sistema Especializado en internet de las cosas y desarrollo de aplicaciones de produccion .</p>
+          </div>
+          
+       
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Formulario de Contacto MEJORADO -->
+  <section id="contact" class="text-center">
+    <div class="container">
+      <h2 class="section-title">Contáctanos</h2>
+      <p class="section-text">¿Necesitas nuestros servicios de ingeniería electrónica, robótica o impresión 3D? ¡Escríbenos!</p>
+      <div class="logo-editor">
+        <img id="contact-logo" src="/imagenes/Logo Be Rabbit FInal.png" alt="Logo de contacto" class="logo-preview">
+        <button class="action-btn" id="update-logo-btn">Actualizar Logo</button>
+      </div>
+      <form id="contact-form" action="#" method="POST">
+        <div class="form-field-margin">
+          <label for="name">Nombre Completo:</label>
+          <input type="text" id="name" name="name" placeholder="Tu Nombre" required>
+        </div>
+        <div class="form-field-margin">
+          <label for="phone">Celular:</label>
+          <input type="tel" id="phone" name="phone" placeholder="Tu número de celular" required>
+        </div>
+        <div class="form-field-margin">
+          <label for="email">Correo Electrónico:</label>
+          <input type="email" id="email" name="email" placeholder="tu@email.com" required>
+        </div>
+        <div class="form-textarea-margin">
+          <label for="message">Mensaje:</label>
+          <textarea id="message" name="message" rows="5" placeholder="Cuéntanos sobre tu proyecto..." required></textarea>
+        </div>
+        <div class="text-center">
+          <a href="https://wa.me/573127439018" target="_blank" class="whatsapp-button" aria-label="Contactar por WhatsApp">
+            <svg viewBox="0 0 32 32"><path d="M19.11 17.205c-.372 0-1.088 1.39-1.518 1.39a.63.63 0 0 1-.315-.1c-.802-.402-1.504-.817-2.163-1.447-.545-.516-1.146-1.29-1.46-1.963a.426.426 0 0 1-.073-.215c0-.33.99-.945.99-1.49 0-.143-.73-2.09-.832-2.335-.143-.372-.214-.487-.6-.487-.187 0-.36-.044-.53-.044-.302 0-.53.115-.746.315-.688.645-1.032 1.318-1.06 2.264v.114c-.015.99.472 1.977 1.017 2.78 1.23 1.82 2.506 3.41 4.554 4.34.616.287 2.035.888 2.722.888.817 0 2.15-.515 2.438-1.508.287-.99.287-1.84.13-2.09-.128-.25-.3-.36-.6-.36m-6.508 6.71a9.26 9.26 0 0 0 4.767 4.767c.88.36 1.88.47 2.64.36 2.72-.402 3.78-2.18 3.78-4.94v-5.1a2.09 2.09 0 0 0-1.032-1.84A10.22 10.22 0 0 0 16.315 4.1a1.73 1.73 0 0 0-1.46.044c-.99.444-1.638 1.39-1.753 2.473-.073.615.044 1.23.315 1.752L10.56 12.2c-.044.13-.1.214-.1.33s0 .215.044.33l2.264 3.045c.044.115.1.214.1.33s0 .214-.044.33l-2.474 3.78c-.044.13-.073.24-.073.36 0 .24.1.444.214.616.13.187.287.33.472.444a1.37 1.37 0 0 0 .615.073c.215 0 .4-.044.56-.114L15.8 21.19a.425.425 0 0 1 .36.044l.13.072c.517.24.96.516 1.33.817.39.287.73.545.99.746.24.214.36.472.36.746s-.1.53-.315.746zM16 2C7.972 2 2 7.972 2 16s5.972 14 14 14 14-5.972 14-14S24.028 2 16 2z" fill="white"></path></svg>
+            Contactar por WhatsApp
+          </a>
+          <button type="button" class="contact-submit-btn" onclick="sendContactInfo()">
+            Enviar Información y Ofertas
+          </button>
+        </div>
+        <div class="social-media-icons">
+          <a href="#" target="_blank" aria-label="Facebook"><svg viewBox="0 0 24 24"><path d="M12 2.04C6.5 2.04 2 6.53 2 12.06c0 5.52 4.5 10.02 10 10.02s10-4.5 10-10.02C22 6.53 17.5 2.04 12 2.04zM13.6 19.14v-5.95h2.02l.3-2.34h-2.32V9.45c0-.68.19-1.14 1.16-1.14h1.24V6.12c-.21-.03-.95-.09-1.8-.09-1.83 0-3.08.98-3.08 3.16v1.72H9.38v2.34h1.84v5.95h2.38z"/></svg></a>
+          <a href="#" target="_blank" aria-label="Instagram"><svg viewBox="0 0 24 24"><path d="M12 2c-2.72 0-3.05.01-4.12.06-1.06.05-1.79.23-2.42.47-.65.25-1.23.58-1.77 1.14S2.78 5.28 2.53 5.93c-.24.63-.42 1.36-.47 2.42C2.01 9.43 2 9.76 2 12s.01 2.57.06 3.64c.05 1.06.23 1.79.47 2.42.25.65.58 1.23 1.14 1.77.54.54 1.12.87 1.77 1.14.63.24 1.36.42 2.42.47 1.07.05 1.4.06 4.12.06s3.05-.01 4.12-.06c1.06-.05 1.79-.23 2.42-.47.65-.25 1.23-.58 1.77-1.14.54-.54.87-1.12 1.14-1.77.24-.63.42-1.36.47-2.42.05-1.07.06-1.4.06-4.12s-.01-2.57-.06-3.64c-.05-1.06-.23-1.79-.47-2.42-.25-.65-.58-1.23-1.14-1.77-.54-.54-1.12-.87-1.77-1.14-.63-.24-1.36-.42-2.42-.47C15.05 2.01 14.72 2 12 2zm0 1.8c2.65 0 2.95.01 4 .06 1.03.05 1.5.2 1.82.33.4.16.7.35.98.63.28.28.47.58.63.98.13.32.28.79.33 1.82.04 1.05.05 1.35.05 4s-.01 2.95-.06 4c-.05 1.03-.2 1.5-.33 1.82-.16.4-.35.7-.63.98-.28.28-.58.47-.98.63-.32.13-.79.28-1.82.33-1.05.04-1.35.05-4 .05s-2.95-.01-4-.06c-1.03-.05-1.5-.2-1.82-.33-.4-.16-.7-.35-.98.63-.28-.28-.47-.58-.63-.98-.13-.32-.28-.79-.33-1.82C4.01 14.95 4 14.65 4 12s.01-2.95.06-4c.05-1.03.2-1.5.33-1.82.16-.4.35-.7.63-.98.28-.28.58.47.98-.63.32-.13.79-.28 1.82-.33C9.05 3.81 9.35 3.8 12 3.8zm0 7.35c-2.62 0-4.75 2.13-4.75 4.75S9.38 16.65 12 16.65s4.75-2.13 4.75-4.75S14.62 7.15 12 7.15zm0 7.7c-1.63 0-2.95-1.32-2.95-2.95s1.32-2.95 2.95-2.95 2.95 1.32 2.95 2.95-1.32 2.95-2.95 2.95zm4.95-8.1c-.61 0-1.1.49-1.1 1.1s.49 1.1 1.1 1.1 1.1-.49 1.1-1.1-.49-1.1-1.1-1.1z"/></svg></a>
+        </div>
+      </form>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="container">
+    <p>&copy; 2025 Ilutronic - Ingeniería Electrónica y Robótica. Todos los derechos reservados.</p>
+    <p class="footer-subtext">Servicios de electrónica, robótica e impresión 3D</p>
+  </div>
+</footer>
+
+<!-- ===== MODAL PARA ACTUALIZAR IMÁGENES ===== -->
+<div id="imageModal" class="modal">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <h2 id="modalTitle">Actualizar Imagen</h2>
+    <div class="image-upload-container">
+      <input type="file" id="imageUpload" accept="image/*">
+      <img id="imagePreview" class="image-preview" alt="Vista previa">
+    </div>
+    <br><br>
+    <button class="action-btn" id="confirmUpdate">Actualizar Imagen</button>
+  </div>
+</div>
+
+<!-- ===== MODAL DE PRODUCTO MEJORADO CON MÚLTIPLES IMÁGENES ===== -->
+<div id="productModal" class="product-modal">
+  <div class="product-modal-content">
+    <span class="product-modal-close">&times;</span>
+    <div class="product-modal-body">
+      <div class="product-modal-image">
+        <!-- El contenedor de imágenes se creará dinámicamente con JavaScript -->
+      </div>
+      <div class="product-modal-details">
+        <h2 id="modal-product-name" class="product-modal-name"></h2>
+        <p id="modal-product-price" class="product-modal-price"></p>
+        <p id="modal-product-description" class="product-description"></p>
+        <div class="quantity-selector">
+          <label for="product-quantity">Cantidad:</label>
+          <input type="number" id="product-quantity" min="1" value="1">
+        </div>
+        <div id="total-price" class="total-price">Total: $0</div>
+        <div class="modal-buttons">
+          <button id="buy-btn" class="modal-btn buy-btn">Comprar</button>
+          <button id="print-btn" class="modal-btn print-btn">Imprimir recibo</button>
+          <button id="whatsapp-btn" class="modal-btn whatsapp-btn-modal">
+            <img src="https://cdn-icons-png.flaticon.com/512/220/220236.png" width="16" alt="WhatsApp"> WhatsApp
+          </button>
+          <button id="close-modal-btn" class="modal-btn close-btn">Cerrar</button>
+        </div>
+        <div id="email-section" style="display:none;">
+          <input type="email" id="customer-email" class="email-input" placeholder="Ingresa tu correo para recibir el recibo">
+          <button id="send-receipt-btn" class="modal-btn print-btn">Enviar recibo por correo</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== MODAL DE PAGO BOLT ===== -->
+<div id="boltPaymentModal" class="bolt-payment-modal">
+  <div class="bolt-payment-content">
+    <span class="bolt-payment-close">&times;</span>
+    <h2 style="text-align:center;margin-bottom:20px;">Pago con Bolt</h2>
+    <p style="text-align:center;margin-bottom:20px;">Complete la información para procesar su pago</p>
+    
+    <div style="background:#f5f5f5;padding:15px;border-radius:8px;margin-bottom:20px;">
+      <p style="margin:0;font-weight:bold;">Detalles del pedido:</p>
+      <p id="bolt-product-details" style="margin:5px 0 0 0;"></p>
+      <p id="bolt-total-details" style="margin:5px 0 0 0;font-weight:bold;"></p>
+    </div>
+    
+    <div>
+      <label for="bolt-phone">Número de teléfono para asociar con Bolt:</label>
+      <input type="tel" id="bolt-phone" class="bolt-input" placeholder="Ej: 3127439018" required>
+    </div>
+    
+    <div>
+      <label for="bolt-email">Correo electrónico:</label>
+      <input type="email" id="bolt-email" class="bolt-input" placeholder="tu@email.com" required>
+    </div>
+    
+    <button id="bolt-submit-btn" class="bolt-submit-btn">Iniciar Compra</button>
+  </div>
+</div>
+
+<!-- ===== ANIMACIÓN DE PAGO EXITOSO ===== -->
+<div id="payment-success" class="payment-success">
+  <div class="success-animation">
+    <h2>¡Pago Exitoso!</h2>
+    <p>Tu pedido ha sido procesado correctamente.</p>
+    <p>Recibirás un correo con los detalles de tu compra.</p>
+    <button id="close-success-btn" class="modal-btn close-btn">Cerrar</button>
+  </div>
+</div>
+
+<!-- ===== MODAL PARA AMPLIAR IMÁGENES ===== -->
+<div id="imageZoomModal" class="image-zoom-modal">
+  <span class="image-zoom-close">&times;</span>
+  <div class="image-zoom-nav">
+    <button id="prevImage">&lt;</button>
+    <button id="nextImage">&gt;</button>
+  </div>
+  <img class="image-zoom-content" id="zoomedImage" src="" alt="Imagen ampliada">
+  <div class="image-zoom-caption" id="imageCaption"></div>
+</div>
+
+<script>
+  /* ===== ELEMENTOS PRINCIPALES ===== */
+  const modal = document.getElementById('imageModal');
+  const closeModal = document.querySelector('.close');
+  const imageUpload = document.getElementById('imageUpload');
+  const imagePreview = document.getElementById('imagePreview');
+  const confirmUpdate = document.getElementById('confirmUpdate');
+  const updateHeroBgBtn = document.getElementById('update-hero-bg');
+  const resetBtn = document.getElementById('reset-btn');
+  const publishBtn = document.getElementById('publish-btn');
+  const logo = document.getElementById('logo');
+  const contactLogo = document.getElementById('contact-logo');
+  const slides = document.querySelectorAll('.hero-slide');
+  let currentImageKey = null;
+
+  /* ===== VARIABLES PARA EL ZOOM DE IMÁGENES ===== */
+  const imageZoomModal = document.getElementById('imageZoomModal');
+  const zoomedImage = document.getElementById('zoomedImage');
+  const imageCaption = document.getElementById('imageCaption');
+  const prevImageBtn = document.getElementById('prevImage');
+  const nextImageBtn = document.getElementById('nextImage');
+  const imageZoomClose = document.querySelector('.image-zoom-close');
+  
+  let currentImageIndex = 0;
+  let allImages = [];
+
+  /* ===== VARIABLES PARA E-COMMERCE ===== */
+  const boltPaymentModal = document.getElementById('boltPaymentModal');
+  const boltPaymentClose = document.querySelector('.bolt-payment-close');
+  const boltSubmitBtn = document.getElementById('bolt-submit-btn');
+  let currentProduct = null;
+  let currentQuantity = 1;
+
+  /* ===== FUNCIÓN PARA NAVEGACIÓN POR BOTONES ===== */
+  function scrollToSection(sectionId) {
+    const section = document.getElementById(sectionId);
+    if (section) {
+      // Cerrar el slider si está abierto
+      closeSlider();
+      
+      // Desplazarse suavemente a la sección
+      section.scrollIntoView({ behavior: 'smooth' });
+    }
+  }
+
+  function closeSlider() {
+    // Cerrar el slider moviéndose al slide 1
+    currentSlide = 0;
+    showSlide(currentSlide);
+  }
+
+  /* ===== INICIALIZAR SISTEMA DE ZOOM DE IMÁGENES ===== */
+  function initImageZoom() {
+    // Recolectar TODAS las imágenes que se pueden ampliar
+    allImages = Array.from(document.querySelectorAll(
+      '.editable-img, .product-image, .rectangular-images-grid img, .gallery-grid img, .product-image-container img'
+    ));
+    
+    console.log('Imágenes encontradas para zoom:', allImages.length);
+    
+    // Agregar event listeners para doble clic
+    allImages.forEach((img, index) => {
+      img.addEventListener('dblclick', function(e) {
+        e.preventDefault();
+        openImageZoom(index);
+      });
+      
+      // También permitir clic en imágenes de productos
+      if (img.classList.contains('product-image') || img.parentElement.classList.contains('product-image-container')) {
+        img.style.cursor = 'pointer';
+      } else {
+        // Agregar cursor pointer a todas las imágenes para indicar que son clickeables
+        img.style.cursor = 'zoom-in';
+      }
+    });
+    
+    // Event listeners para navegación
+    prevImageBtn.addEventListener('click', showPrevImage);
+    nextImageBtn.addEventListener('click', showNextImage);
+    
+    // Cerrar modal con ESC
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape' && imageZoomModal.style.display === 'block') {
+        closeImageZoom();
+      } else if (e.key === 'ArrowLeft' && imageZoomModal.style.display === 'block') {
+        showPrevImage();
+      } else if (e.key === 'ArrowRight' && imageZoomModal.style.display === 'block') {
+        showNextImage();
+      }
+    });
+    
+    // Cerrar modal al hacer clic en la X o fuera de la imagen
+    imageZoomClose.addEventListener('click', closeImageZoom);
+    imageZoomModal.addEventListener('click', function(e) {
+      if (e.target === imageZoomModal) {
+        closeImageZoom();
+      }
+    });
+  }
+
+  /* ===== FUNCIONES PARA EL ZOOM DE IMÁGENES ===== */
+  function openImageZoom(index) {
+    currentImageIndex = index;
+    const img = allImages[currentImageIndex];
+    
+    zoomedImage.src = img.src;
+    imageCaption.textContent = img.alt || 'Imagen';
+    
+    imageZoomModal.style.display = 'block';
+    document.body.style.overflow = 'hidden'; // Prevenir scroll
+  }
+
+  function closeImageZoom() {
+    imageZoomModal.style.display = 'none';
+    document.body.style.overflow = ''; // Restaurar scroll
+  }
+
+  function showPrevImage() {
+    currentImageIndex = (currentImageIndex - 1 + allImages.length) % allImages.length;
+    const img = allImages[currentImageIndex];
+    
+    zoomedImage.src = img.src;
+    imageCaption.textContent = img.alt || 'Imagen';
+  }
+
+  function showNextImage() {
+    currentImageIndex = (currentImageIndex + 1) % allImages.length;
+    const img = allImages[currentImageIndex];
+    
+    zoomedImage.src = img.src;
+    imageCaption.textContent = img.alt || 'Imagen';
+  }
+
+  /* ===== PRODUCTOS DEL E-COMMERCE MEJORADOS CON MÚLTIPLES IMÁGENES ===== */
+  const products = [
+    {
+      id: 1,
+      name: "Rasberrypyzero",
+      price: 150000,
+      images: [
+        "/imagenes/RASBERRYzero2-hero.jpg",
+        "/imagenes/producto_cuadrada_22.jpeg",
+        "/imagenes/producto_cuadrada_33.jpeg",
+        "/imagenes/producto_cuadrada_44.jpeg"
+      ],
+      description: "Kit completo para iniciar en el mundo de para rasberry py zero con sensores y pulsadores . Incluye tutorial de instalacion ,desarrollo de codigo explicacion y consolidacion de proyecto viene con : sensores, LEDs, resistencias, protoboard y manual de proyectos.",
+      category: "componentes"
+    },
+    {
+      id: 2,
+      name: "Raspberry Pi 4 Model B 4GB",
+      price: 350000,
+      images: [
+        "/imagenes/Raspberry-1.webp",
+        "/imagenes/Raspberry-123.webp",
+        "/imagenes/Raspberry-12.webp"
+      ],
+      description: "Potente microcomputadora para proyectos de robótica, IoT y programación. Incluye 4GB de RAM, WiFi, Bluetooth y soporte para 4K.",
+      category: "componentes"
+    },
+    {
+      id: 3,
+      name: "Servicio Impresión 3D - 100g",
+      price: 32000,
+      images: [
+        "/imagenes/Publicidadimpresion3d.avif",
+        "/imagenes/Publiciimpresion2.webp",
+        "/imagenes/publiciimpresion3.jpg",
+        "/imagenes/publiciimpresion4.jpg",
+        "/imagenes/jabones2.jpg",
+        "/imagenes/jabones2.jpg"
+      ],
+      description: "Servicio de impresión 3D con filamento PLA de alta calidad. Incluye diseño básico y post-procesado de la pieza.",
+      category: "impresion3d"
+    },
+    {
+      id: 4,
+      name: "NUC core 10",
+      price: 85000,
+      images: [
+        "/imagenes/OIP.webp",
+        "/imagenes/nuc.jpg",
+        "/imagenes/nuc2.webp"
+      ],
+      description: "Computadoras NUC CON CORE 7 DE 15 GENERACION ",
+      category: "componentes"
+    },
+    {
+      id: 5,
+      name: "Robot Educativo Programable",
+      price: 580000,
+      images: [
+        "/imagenes/RobotEducativo2.avif",
+        "/imagenes/RobotEducativo.avif",
+        "/imagenes/RobotEducativo3.avif"
+      ],
+      description: "Robot educativo con sensores de proximidad, seguimiento de línea y control remoto. Programable con Arduino o Scratch.",
+      category: "componentes"
+    },
+    {
+      id: 6,
+      name: "Impresora 3D FLSUN V400",
+      price: 7120000,
+      images: [
+        "/imagenes/impresoraflaun2.avif",
+        "/imagenes/impresoraflaun.avif",
+        "/imagenes/impresoraflaun3.avif"
+      ],
+      description: "Impresora 3D de alta velocidad, volumen de impresión 300x300x400mm, nivelación automática, extrusor directo.",
+      category: "impresion3d"
+    },
+    {
+      id: 7,
+      name: "Filamento PLA 1kg",
+      price: 115000,
+      images: [
+        "/imagenes/IMPRESION3D2.png",
+        "/imagenes/flsun_QQ_S_Pro_7.jpg",
+        "/imagenes/impresoraflaun.avif"
+      ],
+      description: "Filamento PLA de 1.75mm, varios colores disponibles. Alta calidad y precisión en impresiones.",
+      category: "impresion3d"
+    },
+    {
+      id: 8,
+      name: "ESP32 Development Board",
+      price: 55000,
+      images: [
+        "/imagenes/ESP32.jpg",
+        "/imagenes/eSP32.avif",
+        "/imagenes/eSP32.avif"
+      ],
+      description: "Placa de desarrollo ESP32 con WiFi y Bluetooth integrado, ideal para proyectos IoT y domótica.",
+      category: "componentes"
+    },
+    {
+      id: 9,
+      name: "Servicio Diseño 3D Personalizado",
+      price: 80000,
+      images: [
+        "/imagenes/IMPRESION3D2.png",
+        "/imagenes/IMPRESION3D3.png"
+      ],
+      description: "Servicio de diseño 3D personalizado para tus proyectos. Incluye modelado y preparación para impresión.",
+      category: "impresion3d"
+    },
+    {
+      id: 10,
+      name: "Dron air 3",
+      price: 80000,
+      images: [
+        "/imagenes/Dronair31.avif",
+        "/imagenes/Dronair3.avif",
+        "/imagenes/DronJI-Air-3.jpg"
+      ],
+      description: "Servicio de diseño 3D personalizado para tus proyectos. Incluye modelado y preparación para impresión.",
+      category: "componentes"
+    },
+     {
+      id: 11,
+      name: "Dron air 3",
+      price: 8000000,
+      images: [
+        "/imagenes/Dronair31.avif",
+        "/imagenes/Dronair3.avif",
+        "/imagenes/DronJI-Air-3.jpg"
+      ],
+      description: "Servicio de diseño 3D personalizado para tus proyectos. Incluye modelado y preparación para impresión.",
+      category: "componentes"
+    },
+    {
+      id: 12,
+      name: "Tarjeta FLsun v400",
+      price: 8000000,
+      images: [
+        "/imagenes/TARGETAIMPRESORAFLSUN.avif",
+        "/imagenes/TARGETAIMPRESORAFLSUN.avif",
+        "/imagenes/TARGETAIMPRESORAFLSUN2.avif"
+      ],
+      description: "Servicio de diseño 3D personalizado para tus proyectos. Incluye modelado y preparación para impresión.",
+      category: "impresion3d"
+    },
+    {
+      id: 13,
+      name: "Boquilla impresor Flsun v400",
+      price: 8000000,
+      images: [
+        "/imagenes/BOQUILLAFLSUNV400.avif",
+        "/imagenes/BOQUILLAFLSUNV400.avif",
+        "/imagenes/BOQUILLAFLSUNV400.avif"
+      ],
+      description: "Servicio de diseño 3D personalizado para tus proyectos. Incluye modelado y preparación para impresión.",
+      category: "impresion3d"
+    },
+    
+  ];
+
+  /* ===== CARGAR IMAGENES GUARDADAS ===== */
+  function loadSavedImages() {
+    const savedLogo = localStorage.getItem('logoImage');
+    if (savedLogo) {
+      logo.src = savedLogo;
+      contactLogo.src = savedLogo;
+    }
+    slides.forEach((slide, i) => {
+      const key = `slide-${i + 1}Bg`;
+      const saved = localStorage.getItem(key);
+      if (saved) slide.style.backgroundImage = `url(${saved})`;
+    });
+    document.querySelectorAll('.editable-img').forEach(img => {
+      const key = img.getAttribute('data-key');
+      const saved = localStorage.getItem(`image_${key}`);
+      if (saved) img.src = saved;
+    });
+  }
+  loadSavedImages();
+
+  /* ===== INICIALIZAR E-COMMERCE MEJORADO ===== */
+  function initEcommerce() {
+    const productsGrid = document.getElementById('products-grid');
+    
+    // Cargar productos del slide 5
+    products.forEach(product => {
+      const productCard = document.createElement('div');
+      productCard.className = 'product-card';
+      productCard.innerHTML = `
+        <img src="${product.images[0]}" alt="${product.name}" class="product-image">
+        <div class="product-info">
+          <h3 class="product-name">${product.name}</h3>
+          <p class="product-price">$${product.price.toLocaleString()}</p>
+          <button class="view-detail-btn" data-id="${product.id}">Ver Detalle</button>
+        </div>
+      `;
+      productsGrid.appendChild(productCard);
+    });
+
+    // Cargar productos en secciones específicas
+    loadSectionProducts('impresion3d', 'impresion3d-products');
+    loadSectionProducts('componentes', 'componentes-products');
+
+    // Agregar event listeners a los botones
+    document.querySelectorAll('.view-detail-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        const productId = parseInt(this.getAttribute('data-id'));
+        openProductModal(productId);
+      });
+    });
+
+    // Configurar modal de pago Bolt
+    boltPaymentClose.addEventListener('click', function() {
+      boltPaymentModal.style.display = 'none';
+    });
+
+    boltSubmitBtn.addEventListener('click', processBoltPayment);
+  }
+
+  /* ===== CARGAR PRODUCTOS EN SECCIONES ESPECÍFICAS ===== */
+  function loadSectionProducts(category, containerId) {
+    const container = document.getElementById(containerId);
+    if (!container) return;
+
+    const categoryProducts = products.filter(product => product.category === category);
+    
+    categoryProducts.forEach(product => {
+      const productItem = document.createElement('div');
+      productItem.className = 'product-item';
+      productItem.innerHTML = `
+        <div class="product-image-container">
+          <img src="${product.images[0]}" alt="${product.name}" class="product-image">
+        </div>
+        <div class="product-info-container">
+          <h3 class="product-title">${product.name}</h3>
+          <p class="product-description-short">${product.description.substring(0, 100)}...</p>
+          <p class="product-price">$${product.price.toLocaleString()}</p>
+          <button class="view-product-btn" data-id="${product.id}">Ver Producto</button>
+        </div>
+      `;
+      container.appendChild(productItem);
+    });
+
+    // Agregar event listeners a los botones de las secciones
+    container.querySelectorAll('.view-product-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        const productId = parseInt(this.getAttribute('data-id'));
+        openProductModal(productId);
+      });
+    });
+  }
+
+  /* ===== MODAL DE PRODUCTO MEJORADO CON MÚLTIPLES IMÁGENES ===== */
+  function openProductModal(productId) {
+    const product = products.find(p => p.id === productId);
+    if (!product) return;
+
+    currentProduct = product;
+    const modal = document.getElementById('productModal');
+    const productName = document.getElementById('modal-product-name');
+    const productPrice = document.getElementById('modal-product-price');
+    const productDescription = document.getElementById('modal-product-description');
+    const quantityInput = document.getElementById('product-quantity');
+    const totalPrice = document.getElementById('total-price');
+
+    // Llenar datos del producto
+    productName.textContent = product.name;
+    productPrice.textContent = `$${product.price.toLocaleString()}`;
+    productDescription.textContent = product.description;
+    quantityInput.value = 1;
+    currentQuantity = 1;
+    updateTotalPrice();
+
+    // Crear el carrusel de imágenes si no existe
+    let imageContainer = modal.querySelector('.product-modal-image-container');
+    if (!imageContainer) {
+      imageContainer = document.createElement('div');
+      imageContainer.className = 'product-modal-image-container';
+      
+      const mainImage = document.createElement('img');
+      mainImage.className = 'product-modal-main-image';
+      mainImage.alt = product.name;
+      
+      const arrowsContainer = document.createElement('div');
+      arrowsContainer.className = 'product-modal-arrows';
+      
+      const leftArrow = document.createElement('button');
+      leftArrow.className = 'product-modal-arrow left-arrow';
+      leftArrow.innerHTML = '&#10094;';
+      
+      const rightArrow = document.createElement('button');
+      rightArrow.className = 'product-modal-arrow right-arrow';
+      rightArrow.innerHTML = '&#10095;';
+      
+      arrowsContainer.appendChild(leftArrow);
+      arrowsContainer.appendChild(rightArrow);
+      
+      const dotsContainer = document.createElement('div');
+      dotsContainer.className = 'product-modal-dots';
+      
+      const thumbnailsContainer = document.createElement('div');
+      thumbnailsContainer.className = 'product-modal-thumbnails';
+      
+      imageContainer.appendChild(mainImage);
+      imageContainer.appendChild(arrowsContainer);
+      imageContainer.appendChild(dotsContainer);
+      imageContainer.appendChild(thumbnailsContainer);
+      
+      modal.querySelector('.product-modal-image').innerHTML = '';
+      modal.querySelector('.product-modal-image').appendChild(imageContainer);
+    }
+
+    // Actualizar imágenes del producto
+    updateProductImages(product);
+
+    // Mostrar modal
+    modal.style.display = 'block';
+
+    // Actualizar precio total cuando cambia la cantidad
+    quantityInput.addEventListener('input', function() {
+      currentQuantity = parseInt(this.value) || 1;
+      updateTotalPrice();
+    });
+
+    function updateTotalPrice() {
+      const total = product.price * currentQuantity;
+      totalPrice.textContent = `Total: $${total.toLocaleString()}`;
+    }
+
+    // Botón comprar - ahora abre modal de Bolt
+    document.getElementById('buy-btn').onclick = function() {
+      modal.style.display = 'none';
+      openBoltPaymentModal();
+    };
+
+    // Botón imprimir recibo
+    document.getElementById('print-btn').onclick = function() {
+      document.getElementById('email-section').style.display = 'block';
+    };
+
+    // Botón enviar recibo por correo
+    document.getElementById('send-receipt-btn').onclick = function() {
+      const email = document.getElementById('customer-email').value;
+      if (email) {
+        generateReceipt(product, currentQuantity, email);
+        alert('Recibo enviado a ' + email);
+        document.getElementById('email-section').style.display = 'none';
+      } else {
+        alert('Por favor ingresa un correo válido');
+      }
+    };
+
+    // Botón WhatsApp
+    document.getElementById('whatsapp-btn').onclick = function() {
+      const total = product.price * currentQuantity;
+      const message = `Hola, estoy interesado en comprar ${currentQuantity} unidad(es) de ${product.name} por un total de $${total.toLocaleString()}.`;
+      const encodedMessage = encodeURIComponent(message);
+      window.open(`https://wa.me/573127439018?text=${encodedMessage}`, '_blank');
+    };
+
+    // Botón cerrar
+    document.getElementById('close-modal-btn').onclick = function() {
+      modal.style.display = 'none';
+    };
+
+    // Cerrar modal al hacer clic en la X
+    document.querySelector('.product-modal-close').onclick = function() {
+      modal.style.display = 'none';
+    };
+  }
+
+  /* ===== ACTUALIZAR IMÁGENES DEL PRODUCTO EN EL MODAL ===== */
+  function updateProductImages(product) {
+    const modal = document.getElementById('productModal');
+    const mainImage = modal.querySelector('.product-modal-main-image');
+    const dotsContainer = modal.querySelector('.product-modal-dots');
+    const thumbnailsContainer = modal.querySelector('.product-modal-thumbnails');
+    const leftArrow = modal.querySelector('.left-arrow');
+    const rightArrow = modal.querySelector('.right-arrow');
+    
+    let currentImageIndex = 0;
+    
+    // Limpiar contenedores
+    dotsContainer.innerHTML = '';
+    thumbnailsContainer.innerHTML = '';
+    
+    // Establecer primera imagen
+    mainImage.src = product.images[0];
+    
+    // Crear puntos indicadores
+    product.images.forEach((_, index) => {
+      const dot = document.createElement('button');
+      dot.className = `product-modal-dot ${index === 0 ? 'active' : ''}`;
+      dot.addEventListener('click', () => {
+        changeImage(index);
+      });
+      dotsContainer.appendChild(dot);
+    });
+    
+    // Crear miniaturas
+    product.images.forEach((image, index) => {
+      const thumbnail = document.createElement('img');
+      thumbnail.src = image;
+      thumbnail.alt = `Miniatura ${index + 1}`;
+      thumbnail.className = `product-modal-thumbnail ${index === 0 ? 'active' : ''}`;
+      thumbnail.addEventListener('click', () => {
+        changeImage(index);
+      });
+      thumbnailsContainer.appendChild(thumbnail);
+    });
+    
+    // Función para cambiar imagen
+    function changeImage(index) {
+      currentImageIndex = index;
+      mainImage.src = product.images[index];
+      
+      // Actualizar puntos activos
+      const dots = dotsContainer.querySelectorAll('.product-modal-dot');
+      dots.forEach((dot, i) => {
+        dot.classList.toggle('active', i === index);
+      });
+      
+      // Actualizar miniaturas activas
+      const thumbnails = thumbnailsContainer.querySelectorAll('.product-modal-thumbnail');
+      thumbnails.forEach((thumb, i) => {
+        thumb.classList.toggle('active', i === index);
+      });
+    }
+    
+    // Event listeners para flechas
+    leftArrow.onclick = function() {
+      currentImageIndex = (currentImageIndex - 1 + product.images.length) % product.images.length;
+      changeImage(currentImageIndex);
+    };
+    
+    rightArrow.onclick = function() {
+      currentImageIndex = (currentImageIndex + 1) % product.images.length;
+      changeImage(currentImageIndex);
+    };
+    
+    // Navegación con teclado
+    document.addEventListener('keydown', function(e) {
+      if (modal.style.display === 'block') {
+        if (e.key === 'ArrowLeft') {
+          currentImageIndex = (currentImageIndex - 1 + product.images.length) % product.images.length;
+          changeImage(currentImageIndex);
+        } else if (e.key === 'ArrowRight') {
+          currentImageIndex = (currentImageIndex + 1) % product.images.length;
+          changeImage(currentImageIndex);
+        }
+      }
+    });
+  }
+
+  /* ===== MODAL DE PAGO BOLT ===== */
+  function openBoltPaymentModal() {
+    if (!currentProduct) return;
+
+    const boltProductDetails = document.getElementById('bolt-product-details');
+    const boltTotalDetails = document.getElementById('bolt-total-details');
+    const total = currentProduct.price * currentQuantity;
+
+    boltProductDetails.textContent = `${currentQuantity} x ${currentProduct.name}`;
+    boltTotalDetails.textContent = `Total: $${total.toLocaleString()}`;
+
+    // Limpiar campos anteriores
+    document.getElementById('bolt-phone').value = '';
+    document.getElementById('bolt-email').value = '';
+
+    boltPaymentModal.style.display = 'block';
+  }
+
+  /* ===== PROCESAR PAGO CON BOLT ===== */
+  function processBoltPayment() {
+    const phone = document.getElementById('bolt-phone').value;
+    const email = document.getElementById('bolt-email').value;
+
+    if (!phone || !email) {
+      alert('Por favor complete todos los campos');
+      return;
+    }
+
+    if (!validatePhone(phone)) {
+      alert('Por favor ingrese un número de teléfono válido');
+      return;
+    }
+
+    if (!validateEmail(email)) {
+      alert('Por favor ingrese un correo electrónico válido');
+      return;
+    }
+
+    // Simular procesamiento de pago
+    boltSubmitBtn.textContent = 'Procesando...';
+    boltSubmitBtn.disabled = true;
+
+    // Simular conexión con Bolt
+    setTimeout(() => {
+      // En un entorno real, aquí se integraría con la API de Bolt
+      const total = currentProduct.price * currentQuantity;
+      const nequiNumber = "3127439018";
+      
+      // Simular redirección a Bolt
+      const boltUrl = `https://bolt.com/payment?amount=${total}&phone=${phone}&email=${encodeURIComponent(email)}`;
+      
+      // En un entorno real, se redirigiría a Bolt
+      // window.location.href = boltUrl;
+      
+      // Por ahora, simulamos el proceso
+      simulateBoltPayment(phone, email, total);
+    }, 2000);
+  }
+
+  function simulateBoltPayment(phone, email, total) {
+    // Simular proceso de pago
+    alert(`Redirigiendo a Bolt para procesar pago de $${total.toLocaleString()}\n\nNúmero asociado: ${phone}\nCorreo: ${email}`);
+    
+    // Simular confirmación de pago después de 3 segundos
+    setTimeout(() => {
+      // Simular confirmación exitosa
+      completeBoltPayment(phone, email, total);
+    }, 3000);
+  }
+
+  function completeBoltPayment(phone, email, total) {
+    // Cerrar modal de Bolt
+    boltPaymentModal.style.display = 'none';
+    
+    // Mostrar éxito
+    showPaymentSuccess();
+    
+    // Enviar correos de confirmación
+    sendConfirmationEmails(phone, email, total);
+    
+    // Enviar notificación por WhatsApp
+    sendWhatsAppConfirmation(phone, total);
+    
+    // Resetear botón
+    boltSubmitBtn.textContent = 'Iniciar Compra';
+    boltSubmitBtn.disabled = false;
+  }
+
+  function sendConfirmationEmails(phone, email, total) {
+    // En un entorno real, aquí se enviarían correos reales
+    // Por ahora, simulamos el envío
+    
+    const customerEmailContent = `
+      Asunto: Confirmación de Pago - Ilutronic
+      
+      Hola,
+      
+      Tu pago ha sido procesado exitosamente.
+      
+      Detalles del pedido:
+      - Producto: ${currentProduct.name}
+      - Cantidad: ${currentQuantity}
+      - Total: $${total.toLocaleString()}
+      - Fecha: ${new Date().toLocaleString()}
+      - Método: Bolt/Nequi
+      
+      ¡Gracias por tu compra!
+      
+      Atentamente,
+      Equipo Ilutronic
+    `;
+    
+    const adminEmailContent = `
+      Asunto: Nuevo Pago Recibido - Ilutronic
+      
+      Se ha recibido un nuevo pago:
+      
+      Detalles del cliente:
+      - Teléfono: ${phone}
+      - Correo: ${email}
+      
+      Detalles del pedido:
+      - Producto: ${currentProduct.name}
+      - Cantidad: ${currentQuantity}
+      - Total: $${total.toLocaleString()}
+      - Fecha: ${new Date().toLocaleString()}
+      - Método: Bolt/Nequi
+    `;
+    
+    console.log("Correo enviado al cliente:", email);
+    console.log(customerEmailContent);
+    
+    console.log("Correo enviado al administrador: contacto@ilutronic.com");
+    console.log(adminEmailContent);
+    
+    // En un entorno real, usaríamos un servicio como SendGrid o EmailJS
+    // Para implementación real, necesitarías:
+    // 1. Una cuenta en servicio de envío de correos (SendGrid, Mailgun, etc.)
+    // 2. Configurar las credenciales API
+    // 3. Implementar la lógica de envío
+  }
+
+  function sendWhatsAppConfirmation(phone, total) {
+    // En un entorno real, aquí se enviaría un mensaje de WhatsApp
+    // usando la API de WhatsApp Business
+    
+    const message = `✅ Pago confirmado por $${total.toLocaleString()}. Gracias por tu compra en Ilutronic.`;
+    const encodedMessage = encodeURIComponent(message);
+    
+    // Abrir WhatsApp con el mensaje predefinido
+    window.open(`https://wa.me/57${phone}?text=${encodedMessage}`, '_blank');
+  }
+
+  /* ===== FUNCIONES DE VALIDACIÓN ===== */
+  function validatePhone(phone) {
+    const phoneRegex = /^[0-9]{10}$/;
+    return phoneRegex.test(phone);
+  }
+
+  function validateEmail(email) {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  }
+
+  /* ===== FUNCIONES DEL FORMULARIO DE CONTACTO ===== */
+  function sendContactInfo() {
+    const name = document.getElementById('name').value;
+    const phone = document.getElementById('phone').value;
+    const email = document.getElementById('email').value;
+    const message = document.getElementById('message').value;
+
+    if (!name || !phone || !email || !message) {
+      alert('Por favor complete todos los campos');
+      return;
+    }
+
+    if (!validatePhone(phone)) {
+      alert('Por favor ingrese un número de teléfono válido (10 dígitos)');
+      return;
+    }
+
+    if (!validateEmail(email)) {
+      alert('Por favor ingrese un correo electrónico válido');
+      return;
+    }
+
+    // Enviar correo de bienvenida
+    sendWelcomeEmail(name, email, phone);
+    
+    // Enviar mensaje de WhatsApp
+    sendWelcomeWhatsApp(phone, name);
+    
+    // En un entorno real, también podrías enviar un SMS aquí
+    
+    alert('¡Gracias por contactarnos! Te hemos enviado información sobre nuestros servicios y ofertas.');
+    
+    // Limpiar formulario
+    document.getElementById('contact-form').reset();
+  }
+
+  function sendWelcomeEmail(name, email, phone) {
+    // En un entorno real, aquí se enviaría un correo con imágenes y ofertas
+    // Por ahora, simulamos el envío
+    
+    const emailContent = `
+      Asunto: ¡Bienvenido a Ilutronic! - Ofertas Especiales
+      
+      Hola ${name},
+      
+      ¡Gracias por contactarnos!
+      
+      En Ilutronic nos especializamos en servicios de ingeniería electrónica y robótica:
+      - Diseño de circuitos electrónicos
+      - Desarrollo de sistemas robóticos
+      - Servicio de impresión 3D
+      - Venta de componentes electrónicos
+      - Proyectos IoT y domótica
+      
+      OFERTAS ESPECIALES PARA TI:
+      🔹 10% de descuento en tu primer servicio
+      🔹 Kit Arduino Starter por solo $150,000
+      🔹 Asesoría técnica gratuita para tu proyecto
+      
+      Visita nuestro sitio web: [URL de tu página]
+      
+      Contáctanos:
+      📞 ${phone}
+      ✉️ ${email}
+      
+      ¡Estamos para servirte!
+      
+      Atentamente,
+      Equipo Ilutronic
+    `;
+    
+    console.log("Correo de bienvenida enviado a:", email);
+    console.log(emailContent);
+    
+    // En un entorno real, implementarías el envío real de correo aquí
+  }
+
+  function sendWelcomeWhatsApp(phone, name) {
+    const message = `¡Hola ${name}! 👋 
+
+Gracias por contactar a *Ilutronic* 🔌🤖
+
+Te ofrecemos:
+• Diseño de circuitos electrónicos
+• Servicios de robótica y automatización
+• Impresión 3D
+• Venta de Arduino, Raspberry Pi y componentes
+• Proyectos IoT y domótica
+
+*OFERTA ESPECIAL:* 10% de descuento en tu primer servicio!
+
+📍 Bogotá - Lunes a Viernes 8am a 6pm
+
+¿En qué podemos ayudarte? 😊`;
+
+    const encodedMessage = encodeURIComponent(message);
+    
+    // Abrir WhatsApp con el mensaje predefinido
+    window.open(`https://wa.me/573127439018?text=${encodedMessage}`, '_blank');
+  }
+
+  /* ===== MOSTRAR ANIMACIÓN DE PAGO EXITOSO ===== */
+  function showPaymentSuccess() {
+    const paymentSuccess = document.getElementById('payment-success');
+    paymentSuccess.style.display = 'flex';
+    
+    // Cerrar animación de éxito
+    document.getElementById('close-success-btn').onclick = function() {
+      paymentSuccess.style.display = 'none';
+    };
+  }
+
+  /* ===== GENERAR RECIBO ===== */
+  function generateReceipt(product, quantity, email) {
+    const total = product.price * quantity;
+    
+    // Crear contenido del recibo
+    const receiptContent = `
+      <html>
+        <head>
+          <title>Recibo de Compra - Ilutronic</title>
+          <style>
+            body { font-family: Arial, sans-serif; margin: 20px; }
+            .header { text-align: center; margin-bottom: 20px; }
+            .details { margin-bottom: 20px; }
+            .total { font-weight: bold; font-size: 1.2em; }
+          </style>
+        </head>
+        <body>
+          <div class="header">
+            <h1>Ilutronic</h1>
+            <p>Ingeniería Electrónica y Robótica</p>
+          </div>
+          <div class="details">
+            <h2>Recibo de Compra</h2>
+            <p><strong>Producto:</strong> ${product.name}</p>
+            <p><strong>Cantidad:</strong> ${quantity}</p>
+            <p><strong>Precio unitario:</strong> $${product.price.toLocaleString()}</p>
+            <p class="total"><strong>Total:</strong> $${total.toLocaleString()}</p>
+            <p><strong>Fecha:</strong> ${new Date().toLocaleDateString()}</p>
+          </div>
+          <p>¡Gracias por su compra!</p>
+        </body>
+      </html>
+    `;
+    
+    // En un entorno real, aquí se enviaría el recibo por correo
+    console.log("Recibo generado para:", email);
+    console.log(receiptContent);
+    
+    // Simulación de envío de correo
+    alert(`Recibo enviado a ${email}`);
+  }
+
+  /* ===== BANNER ROTATIVO ===== */
+  function initRotatingBanner() {
+    const messages = document.querySelectorAll('.banner-message');
+    let currentIndex = 0;
+    
+    function showNextMessage() {
+      messages.forEach(msg => msg.classList.remove('active'));
+      messages[currentIndex].classList.add('active');
+      
+      currentIndex = (currentIndex + 1) % messages.length;
+    }
+    
+    // Mostrar primer mensaje
+    showNextMessage();
+    
+    // Cambiar mensaje cada 5 segundos
+    setInterval(showNextMessage, 5000);
+  }
+
+  /* ===== ACTUALIZAR FONDOS DE SLIDES ===== */
+  updateHeroBgBtn.addEventListener('click', () => {
+    const num = prompt("¿Qué slide quieres actualizar? (1-5):");
+    if (num >= 1 && num <= 5) {
+      currentImageKey = `slide-${num}Bg`;
+      modal.style.display = 'block';
+      document.getElementById('modalTitle').textContent = `Actualizar fondo del slide ${num}`;
+    }
+  });
+
+  /* ===== ACTUALIZAR LOGO ===== */
+  document.getElementById('update-logo-btn').addEventListener('click', () => {
+    currentImageKey = 'logo';
+    modal.style.display = 'block';
+    document.getElementById('modalTitle').textContent = 'Actualizar Logo';
+  });
+
+  /* ===== BOTONES ACTUALIZAR IMÁGENES EN SECCIONES ===== */
+  document.querySelectorAll('.update-img-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      currentImageKey = btn.getAttribute('data-target');
+      modal.style.display = 'block';
+      document.getElementById('modalTitle').textContent = 'Actualizar Imagen';
+    });
+  });
+
+  /* ===== MODAL ===== */
+  closeModal.onclick = () => modal.style.display = 'none';
+  window.onclick = e => { 
+    if (e.target == modal) modal.style.display = 'none';
+    if (e.target == boltPaymentModal) boltPaymentModal.style.display = 'none';
+  };
+
+  imageUpload.addEventListener('change', e => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = ev => {
+        imagePreview.src = ev.target.result;
+        imagePreview.style.display = 'block';
+      };
+      reader.readAsDataURL(file);
+    }
+  });
+
+  confirmUpdate.addEventListener('click', () => {
+    if (imagePreview.style.display === 'block') {
+      const newSrc = imagePreview.src;
+      if (currentImageKey === 'logo') {
+        logo.src = newSrc;
+        contactLogo.src = newSrc;
+        localStorage.setItem('logoImage', newSrc);
+      } else if (currentImageKey.startsWith('slide-')) {
+        const slideIndex = parseInt(currentImageKey.split('-')[1]) - 1;
+        slides[slideIndex].style.backgroundImage = `url(${newSrc})`;
+        localStorage.setItem(currentImageKey, newSrc);
+      } else {
+        document.querySelectorAll(`.editable-img[data-key="${currentImageKey}"]`).forEach(img => {
+          img.src = newSrc;
+        });
+        localStorage.setItem(`image_${currentImageKey}`, newSrc);
+      }
+      modal.style.display = 'none';
+    } else {
+      alert('Selecciona una imagen primero.');
+    }
+  });
+
+  /* ===== RESET ===== */
+  resetBtn.addEventListener('click', () => {
+    if (confirm('¿Borrar todas las imágenes guardadas?')) {
+      Object.keys(localStorage).forEach(k => {
+        if (k.startsWith('slide-') || k === 'logoImage' || k.startsWith('image_')) localStorage.removeItem(k);
+      });
+      location.reload();
+    }
+  });
+
+  /* ===== PUBLICAR ===== */
+  publishBtn.addEventListener('click', () => {
+    const pub = window.open('', '_blank');
+    pub.document.write(`
+      <!DOCTYPE html>
+      <html lang="es">
+      <head>
+        <meta charset="UTF-8">
+        <title>Ilutronic - Ingeniería Electrónica y Robótica</title>
+        <style>
+          body{font-family:Arial,sans-serif;background:#f4f4f4;text-align:center;padding:50px;}
+          h1{color:#333;}
+        </style>
+      </head>
+      <body>
+        <h1>🎉 Página publicada con éxito</h1>
+        <p>Esta es una versión de demostración. Aquí se mostraría tu sitio completo.</p>
+      </body>
+      </html>
+    `);
+    pub.document.close();
+  });
+
+  /* ===== SLIDER AUTOMÁTICO MEJORADO ===== */
+  let currentSlide = 0;
+  // MODIFICACIÓN: Tiempo del slide 5 aumentado a 18 minutos (1080000 ms)
+  const tiempos = [30000, 50000, 35000, 0, 1080000]; // ms
+  const track = document.querySelector('.hero-slides');
+  let slideTimeout;
+
+  function showSlide(idx) {
+    // Detener timeout anterior
+    clearTimeout(slideTimeout);
+    
+    // Actualizar slide activo
+    track.style.transform = `translateX(-${idx * 20}%)`;
+    slides.forEach(s => s.classList.remove('active'));
+    slides[idx].classList.add('active');
+
+    // Manejar video
+    const vid = slides[idx].querySelector('video');
+    if (vid) {
+      vid.currentTime = 0;
+      vid.play();
+      vid.onended = () => moveSlide(1);
+    } else {
+      // Configurar timeout para siguiente slide
+      if (tiempos[idx] > 0) {
+        slideTimeout = setTimeout(() => moveSlide(1), tiempos[idx]);
+      }
+    }
+  }
+
+  function moveSlide(dir) {
+    currentSlide = (currentSlide + dir + slides.length) % slides.length;
+    showSlide(currentSlide);
+  }
+
+  // Inicializar componentes
+  document.addEventListener('DOMContentLoaded', function() {
+    initEcommerce();
+    initRotatingBanner();
+    initImageZoom(); // Inicializar el sistema de zoom de imágenes
+    showSlide(0);
+  });
+</script>
+
+</body>
+</html>
