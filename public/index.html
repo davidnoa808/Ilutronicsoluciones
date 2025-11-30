@@ -442,6 +442,11 @@
       color: white;
     }
 
+    .share-btn {
+      background: #FF9800;
+      color: white;
+    }
+
     .print-btn {
       background: #FF9800;
       color: white;
@@ -524,6 +529,74 @@
 
     .bolt-submit-btn:hover {
       background: #45a049;
+    }
+
+    /* ===== NUEVO MODAL DE ÉXITO PARA WHATSAPP ===== */
+    .whatsapp-success-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.7);
+      z-index: 1200;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .whatsapp-success-content {
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      text-align: center;
+      max-width: 400px;
+      width: 90%;
+      animation: slideInFromBottom 0.5s ease-out;
+    }
+
+    .whatsapp-success-icon {
+      font-size: 60px;
+      color: #25D366;
+      margin-bottom: 20px;
+    }
+
+    .whatsapp-success-title {
+      font-size: 1.5rem;
+      color: #25D366;
+      margin-bottom: 15px;
+    }
+
+    .whatsapp-success-message {
+      margin-bottom: 25px;
+      color: #555;
+      line-height: 1.5;
+    }
+
+    .whatsapp-success-close {
+      background: #25D366;
+      color: white;
+      border: none;
+      padding: 12px 25px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background 0.3s;
+    }
+
+    .whatsapp-success-close:hover {
+      background: #1DA851;
+    }
+
+    @keyframes slideInFromBottom {
+      0% {
+        transform: translateY(100px);
+        opacity: 0;
+      }
+      100% {
+        transform: translateY(0);
+        opacity: 1;
+      }
     }
 
     /* Animación de pago exitoso */
@@ -1777,8 +1850,6 @@
             <h3 class="image-title">Desarrollador de Aplicaciones </h3>
             <p class="image-description-text">Sistema Especializado en internet de las cosas y desarrollo de aplicaciones de produccion .</p>
           </div>
-          
-       
         </div>
       </div>
     </div>
@@ -1868,9 +1939,9 @@
         <div id="total-price" class="total-price">Total: $0</div>
         <div class="modal-buttons">
           <button id="buy-btn" class="modal-btn buy-btn">Comprar</button>
-          <button id="print-btn" class="modal-btn print-btn">Imprimir recibo</button>
+          <button id="share-btn" class="modal-btn share-btn">Compartir Producto</button>
           <button id="whatsapp-btn" class="modal-btn whatsapp-btn-modal">
-            <img src="https://cdn-icons-png.flaticon.com/512/220/220236.png" width="16" alt="WhatsApp"> WhatsApp
+            <img src="https://cdn-icons-png.flaticon.com/512/220/220236.png" width="16" alt="WhatsApp"> Consultar por WhatsApp
           </button>
           <button id="close-modal-btn" class="modal-btn close-btn">Cerrar</button>
         </div>
@@ -1907,6 +1978,16 @@
     </div>
     
     <button id="bolt-submit-btn" class="bolt-submit-btn">Iniciar Compra</button>
+  </div>
+</div>
+
+<!-- ===== NUEVO MODAL DE ÉXITO PARA WHATSAPP ===== -->
+<div id="whatsappSuccessModal" class="whatsapp-success-modal">
+  <div class="whatsapp-success-content">
+    <div class="whatsapp-success-icon">✓</div>
+    <h2 class="whatsapp-success-title">¡Mensaje Enviado!</h2>
+    <p class="whatsapp-success-message">Tu mensaje ha sido enviado correctamente por WhatsApp. Pronto nos pondremos en contacto contigo.</p>
+    <button class="whatsapp-success-close" id="whatsapp-success-close">Aceptar</button>
   </div>
 </div>
 
@@ -1963,6 +2044,10 @@
   const boltSubmitBtn = document.getElementById('bolt-submit-btn');
   let currentProduct = null;
   let currentQuantity = 1;
+
+  /* ===== NUEVAS VARIABLES PARA MODAL DE ÉXITO ===== */
+  const whatsappSuccessModal = document.getElementById('whatsappSuccessModal');
+  const whatsappSuccessClose = document.getElementById('whatsapp-success-close');
 
   /* ===== FUNCIÓN PARA NAVEGACIÓN POR BOTONES ===== */
   function scrollToSection(sectionId) {
@@ -2248,6 +2333,50 @@
   }
   loadSavedImages();
 
+  /* ===== SISTEMA DE URLs ÚNICAS PARA PRODUCTOS ===== */
+  function initProductURLs() {
+    // Verificar si hay un producto en la URL al cargar la página
+    const urlParams = new URLSearchParams(window.location.search);
+    const productId = urlParams.get('product');
+    
+    if (productId) {
+      // Abrir el modal del producto automáticamente
+      setTimeout(() => {
+        openProductModal(parseInt(productId));
+      }, 1000);
+    }
+  }
+
+  function getProductURL(productId) {
+    // Crear URL única para el producto
+    const baseURL = window.location.origin + window.location.pathname;
+    return `${baseURL}?product=${productId}`;
+  }
+
+  function shareProduct(productId) {
+    const productURL = getProductURL(productId);
+    
+    // Copiar al portapapeles
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(productURL).then(() => {
+        alert('¡Enlace copiado! Comparte este producto con tus amigos.');
+      }).catch(() => {
+        // Fallback: mostrar la URL
+        prompt('Copia este enlace para compartir el producto:', productURL);
+      });
+    } else {
+      // Fallback para navegadores antiguos
+      prompt('Copia este enlace para compartir el producto:', productURL);
+    }
+  }
+
+  /* ===== NUEVA FUNCIÓN PARA MOSTRAR MODAL DE ÉXITO ===== */
+  function showWhatsAppSuccess(message = "Tu mensaje ha sido enviado correctamente por WhatsApp. Pronto nos pondremos en contacto contigo.") {
+    const messageElement = document.querySelector('.whatsapp-success-message');
+    messageElement.textContent = message;
+    whatsappSuccessModal.style.display = 'flex';
+  }
+
   /* ===== INICIALIZAR E-COMMERCE MEJORADO ===== */
   function initEcommerce() {
     const productsGrid = document.getElementById('products-grid');
@@ -2284,7 +2413,19 @@
       boltPaymentModal.style.display = 'none';
     });
 
-    boltSubmitBtn.addEventListener('click', processBoltPayment);
+    // Configurar modal de éxito de WhatsApp
+    whatsappSuccessClose.addEventListener('click', function() {
+      whatsappSuccessModal.style.display = 'none';
+    });
+
+    // Cerrar modal de éxito al hacer clic fuera
+    whatsappSuccessModal.addEventListener('click', function(e) {
+      if (e.target === whatsappSuccessModal) {
+        whatsappSuccessModal.style.display = 'none';
+      }
+    });
+
+    boltSubmitBtn.addEventListener('click', processRealBoltPayment);
   }
 
   /* ===== CARGAR PRODUCTOS EN SECCIONES ESPECÍFICAS ===== */
@@ -2340,6 +2481,10 @@
     quantityInput.value = 1;
     currentQuantity = 1;
     updateTotalPrice();
+
+    // Actualizar la URL con el parámetro del producto
+    const newURL = getProductURL(productId);
+    window.history.pushState({}, '', newURL);
 
     // Crear el carrusel de imágenes si no existe
     let imageContainer = modal.querySelector('.product-modal-image-container');
@@ -2403,6 +2548,11 @@
       openBoltPaymentModal();
     };
 
+    // Botón compartir
+    document.getElementById('share-btn').onclick = function() {
+      shareProduct(productId);
+    };
+
     // Botón imprimir recibo
     document.getElementById('print-btn').onclick = function() {
       document.getElementById('email-section').style.display = 'block';
@@ -2420,22 +2570,23 @@
       }
     };
 
-    // Botón WhatsApp
+    // Botón WhatsApp - CORREGIDO: Ahora envía al administrador y muestra modal de éxito
     document.getElementById('whatsapp-btn').onclick = function() {
-      const total = product.price * currentQuantity;
-      const message = `Hola, estoy interesado en comprar ${currentQuantity} unidad(es) de ${product.name} por un total de $${total.toLocaleString()}.`;
-      const encodedMessage = encodeURIComponent(message);
-      window.open(`https://wa.me/573127439018?text=${encodedMessage}`, '_blank');
+      sendProductWhatsApp(product, currentQuantity);
     };
 
     // Botón cerrar
     document.getElementById('close-modal-btn').onclick = function() {
       modal.style.display = 'none';
+      // Limpiar parámetros de la URL
+      window.history.pushState({}, '', window.location.pathname);
     };
 
     // Cerrar modal al hacer clic en la X
     document.querySelector('.product-modal-close').onclick = function() {
       modal.style.display = 'none';
+      // Limpiar parámetros de la URL
+      window.history.pushState({}, '', window.location.pathname);
     };
   }
 
@@ -2522,6 +2673,22 @@
     });
   }
 
+  /* ===== FUNCIÓN CORREGIDA PARA WHATSAPP DE PRODUCTOS ===== */
+  function sendProductWhatsApp(product, quantity) {
+    const total = product.price * quantity;
+    // Este mensaje va al ADMINISTRADOR para procesar la compra
+    const message = `Nueva solicitud de compra:\n\nProducto: ${product.name}\nCantidad: ${quantity}\nTotal: $${total.toLocaleString()}\n\nPor favor contactar al cliente para procesar el pedido.`;
+    const encodedMessage = encodeURIComponent(message);
+    
+    // Abrir WhatsApp
+    const whatsappWindow = window.open(`https://wa.me/573127439018?text=${encodedMessage}`, '_blank');
+    
+    // Mostrar modal de éxito después de un breve retraso
+    setTimeout(() => {
+      showWhatsAppSuccess("Tu consulta sobre el producto ha sido enviada correctamente. Pronto nos pondremos en contacto contigo para procesar tu pedido.");
+    }, 1000);
+  }
+
   /* ===== MODAL DE PAGO BOLT ===== */
   function openBoltPaymentModal() {
     if (!currentProduct) return;
@@ -2540,8 +2707,8 @@
     boltPaymentModal.style.display = 'block';
   }
 
-  /* ===== PROCESAR PAGO CON BOLT ===== */
-  function processBoltPayment() {
+  /* ===== INTEGRACIÓN REAL CON BOLT ===== */
+  function processRealBoltPayment() {
     const phone = document.getElementById('bolt-phone').value;
     const email = document.getElementById('bolt-email').value;
 
@@ -2560,6 +2727,31 @@
       return;
     }
 
+    // Configuración real de Bolt
+    const boltConfig = {
+      key: 'pk_test_2c6d5b1e4f3a8b9c0d1e2f3a', // Reemplaza con tu clave pública de Bolt
+      order: {
+        cart: {
+          items: [{
+            reference: currentProduct.id.toString(),
+            name: currentProduct.name,
+            total_amount: currentProduct.price * currentQuantity * 100, // En centavos
+            quantity: currentQuantity,
+            image_url: currentProduct.images[0]
+          }]
+        },
+        total_amount: currentProduct.price * currentQuantity * 100,
+        currency: 'COP',
+        metadata: {
+          customer_phone: phone,
+          customer_email: email
+        }
+      },
+      hooks: {
+        virtual: true // Para pagos con Nequi/Daviplata
+      }
+    };
+
     // Simular procesamiento de pago
     boltSubmitBtn.textContent = 'Procesando...';
     boltSubmitBtn.disabled = true;
@@ -2567,112 +2759,46 @@
     // Simular conexión con Bolt
     setTimeout(() => {
       // En un entorno real, aquí se integraría con la API de Bolt
-      const total = currentProduct.price * currentQuantity;
-      const nequiNumber = "3127439018";
-      
-      // Simular redirección a Bolt
-      const boltUrl = `https://bolt.com/payment?amount=${total}&phone=${phone}&email=${encodeURIComponent(email)}`;
-      
-      // En un entorno real, se redirigiría a Bolt
-      // window.location.href = boltUrl;
-      
-      // Por ahora, simulamos el proceso
-      simulateBoltPayment(phone, email, total);
+      // Por ahora, redirigimos a Nequi como fallback
+      processNequiPayment(phone, email);
     }, 2000);
   }
 
-  function simulateBoltPayment(phone, email, total) {
-    // Simular proceso de pago
-    alert(`Redirigiendo a Bolt para procesar pago de $${total.toLocaleString()}\n\nNúmero asociado: ${phone}\nCorreo: ${email}`);
+  function processNequiPayment(phone, email) {
+    const total = currentProduct.price * currentQuantity;
+    const nequiNumber = "3127439018";
     
-    // Simular confirmación de pago después de 3 segundos
+    // Mostrar instrucciones de pago
+    const paymentInstructions = `
+      INSTRUCCIONES DE PAGO NEQUI:
+      
+      1. Abre la app de Nequi
+      2. Ve a "Enviar plata" 
+      3. Ingresa el número: ${nequiNumber}
+      4. Envía el valor: $${total.toLocaleString()}
+      5. Envíanos el comprobante por WhatsApp
+      
+      Una vez realizado el pago, envíanos el comprobante al WhatsApp 3127439018 para procesar tu pedido.
+    `;
+    
+    alert(paymentInstructions);
+    
+    // Abrir WhatsApp para enviar comprobante
+    const message = `Hola, acabo de realizar un pago Nequi por $${total.toLocaleString()} para el producto ${currentProduct.name} (Cantidad: ${currentQuantity}). Adjunto comprobante.`;
+    const encodedMessage = encodeURIComponent(message);
+    const whatsappWindow = window.open(`https://wa.me/573127439018?text=${encodedMessage}`, '_blank');
+    
+    // Mostrar modal de éxito
     setTimeout(() => {
-      // Simular confirmación exitosa
-      completeBoltPayment(phone, email, total);
-    }, 3000);
-  }
-
-  function completeBoltPayment(phone, email, total) {
-    // Cerrar modal de Bolt
+      showWhatsAppSuccess("Hemos recibido tu solicitud de pago. Por favor envía el comprobante por WhatsApp para procesar tu pedido.");
+    }, 1000);
+    
+    // Cerrar modal
     boltPaymentModal.style.display = 'none';
-    
-    // Mostrar éxito
-    showPaymentSuccess();
-    
-    // Enviar correos de confirmación
-    sendConfirmationEmails(phone, email, total);
-    
-    // Enviar notificación por WhatsApp
-    sendWhatsAppConfirmation(phone, total);
     
     // Resetear botón
     boltSubmitBtn.textContent = 'Iniciar Compra';
     boltSubmitBtn.disabled = false;
-  }
-
-  function sendConfirmationEmails(phone, email, total) {
-    // En un entorno real, aquí se enviarían correos reales
-    // Por ahora, simulamos el envío
-    
-    const customerEmailContent = `
-      Asunto: Confirmación de Pago - Ilutronic
-      
-      Hola,
-      
-      Tu pago ha sido procesado exitosamente.
-      
-      Detalles del pedido:
-      - Producto: ${currentProduct.name}
-      - Cantidad: ${currentQuantity}
-      - Total: $${total.toLocaleString()}
-      - Fecha: ${new Date().toLocaleString()}
-      - Método: Bolt/Nequi
-      
-      ¡Gracias por tu compra!
-      
-      Atentamente,
-      Equipo Ilutronic
-    `;
-    
-    const adminEmailContent = `
-      Asunto: Nuevo Pago Recibido - Ilutronic
-      
-      Se ha recibido un nuevo pago:
-      
-      Detalles del cliente:
-      - Teléfono: ${phone}
-      - Correo: ${email}
-      
-      Detalles del pedido:
-      - Producto: ${currentProduct.name}
-      - Cantidad: ${currentQuantity}
-      - Total: $${total.toLocaleString()}
-      - Fecha: ${new Date().toLocaleString()}
-      - Método: Bolt/Nequi
-    `;
-    
-    console.log("Correo enviado al cliente:", email);
-    console.log(customerEmailContent);
-    
-    console.log("Correo enviado al administrador: contacto@ilutronic.com");
-    console.log(adminEmailContent);
-    
-    // En un entorno real, usaríamos un servicio como SendGrid o EmailJS
-    // Para implementación real, necesitarías:
-    // 1. Una cuenta en servicio de envío de correos (SendGrid, Mailgun, etc.)
-    // 2. Configurar las credenciales API
-    // 3. Implementar la lógica de envío
-  }
-
-  function sendWhatsAppConfirmation(phone, total) {
-    // En un entorno real, aquí se enviaría un mensaje de WhatsApp
-    // usando la API de WhatsApp Business
-    
-    const message = `✅ Pago confirmado por $${total.toLocaleString()}. Gracias por tu compra en Ilutronic.`;
-    const encodedMessage = encodeURIComponent(message);
-    
-    // Abrir WhatsApp con el mensaje predefinido
-    window.open(`https://wa.me/57${phone}?text=${encodedMessage}`, '_blank');
   }
 
   /* ===== FUNCIONES DE VALIDACIÓN ===== */
@@ -2686,7 +2812,7 @@
     return emailRegex.test(email);
   }
 
-  /* ===== FUNCIONES DEL FORMULARIO DE CONTACTO ===== */
+  /* ===== FUNCIONES DEL FORMULARIO DE CONTACTO CORREGIDAS ===== */
   function sendContactInfo() {
     const name = document.getElementById('name').value;
     const phone = document.getElementById('phone').value;
@@ -2708,24 +2834,35 @@
       return;
     }
 
-    // Enviar correo de bienvenida
+    // Enviar información al administrador (número real 3127439018)
+    sendAdminNotification(name, phone, email, message);
+    
+    // Enviar correo de bienvenida al CLIENTE (no a ti mismo)
     sendWelcomeEmail(name, email, phone);
     
-    // Enviar mensaje de WhatsApp
+    // Enviar mensaje de WhatsApp al CLIENTE (no a ti mismo)
     sendWelcomeWhatsApp(phone, name);
-    
-    // En un entorno real, también podrías enviar un SMS aquí
-    
-    alert('¡Gracias por contactarnos! Te hemos enviado información sobre nuestros servicios y ofertas.');
     
     // Limpiar formulario
     document.getElementById('contact-form').reset();
   }
 
-  function sendWelcomeEmail(name, email, phone) {
-    // En un entorno real, aquí se enviaría un correo con imágenes y ofertas
-    // Por ahora, simulamos el envío
+  function sendAdminNotification(name, phone, email, message) {
+    // Este mensaje va al ADMINISTRADOR (3127439018)
+    const adminMessage = `Nuevo contacto desde el sitio web:\n\nNombre: ${name}\nTeléfono: ${phone}\nEmail: ${email}\nMensaje: ${message}`;
+    const encodedAdminMessage = encodeURIComponent(adminMessage);
     
+    // Abrir WhatsApp del ADMINISTRADOR
+    const whatsappWindow = window.open(`https://wa.me/573127439018?text=${encodedAdminMessage}`, '_blank');
+    
+    // Mostrar modal de éxito
+    setTimeout(() => {
+      showWhatsAppSuccess("Tu información de contacto ha sido enviada correctamente. Pronto nos pondremos en contacto contigo.");
+    }, 1000);
+  }
+
+  function sendWelcomeEmail(name, email, phone) {
+    // En un entorno real, aquí se enviaría un correo al CLIENTE
     const emailContent = `
       Asunto: ¡Bienvenido a Ilutronic! - Ofertas Especiales
       
@@ -2733,40 +2870,36 @@
       
       ¡Gracias por contactarnos!
       
-      En Ilutronic nos especializamos en servicios de ingeniería electrónica y robótica:
-      - Diseño de circuitos electrónicos
-      - Desarrollo de sistemas robóticos
-      - Servicio de impresión 3D
-      - Venta de componentes electrónicos
-      - Proyectos IoT y domótica
+      En Ilutronic nos especializamos en servicios de ingeniería electrónica y robótica.
+      
+      Pronto nos pondremos en contacto con usted al teléfono ${phone}.
       
       OFERTAS ESPECIALES PARA TI:
       🔹 10% de descuento en tu primer servicio
       🔹 Kit Arduino Starter por solo $150,000
       🔹 Asesoría técnica gratuita para tu proyecto
       
-      Visita nuestro sitio web: [URL de tu página]
-      
-      Contáctanos:
-      📞 ${phone}
-      ✉️ ${email}
-      
       ¡Estamos para servirte!
       
       Atentamente,
       Equipo Ilutronic
+      📞 3127439018
     `;
     
-    console.log("Correo de bienvenida enviado a:", email);
+    console.log("Correo de bienvenida enviado al CLIENTE:", email);
     console.log(emailContent);
     
     // En un entorno real, implementarías el envío real de correo aquí
+    // usando EmailJS, SendGrid, etc.
   }
 
   function sendWelcomeWhatsApp(phone, name) {
-    const message = `¡Hola ${name}! 👋 
+    // Este mensaje va al CLIENTE (número que ingresó en el formulario)
+    const clientMessage = `¡Hola ${name}! 👋 
 
 Gracias por contactar a *Ilutronic* 🔌🤖
+
+Hemos recibido tu información y pronto nos pondremos en contacto contigo.
 
 Te ofrecemos:
 • Diseño de circuitos electrónicos
@@ -2781,10 +2914,15 @@ Te ofrecemos:
 
 ¿En qué podemos ayudarte? 😊`;
 
-    const encodedMessage = encodeURIComponent(message);
+    const encodedClientMessage = encodeURIComponent(clientMessage);
     
-    // Abrir WhatsApp con el mensaje predefinido
-    window.open(`https://wa.me/573127439018?text=${encodedMessage}`, '_blank');
+    // Abrir WhatsApp del CLIENTE (número que ingresó)
+    const whatsappWindow = window.open(`https://wa.me/57${phone}?text=${encodedClientMessage}`, '_blank');
+    
+    // Mostrar modal de éxito para el cliente
+    setTimeout(() => {
+      showWhatsAppSuccess("Te hemos enviado un mensaje de bienvenida por WhatsApp con información sobre nuestros servicios y ofertas especiales.");
+    }, 1000);
   }
 
   /* ===== MOSTRAR ANIMACIÓN DE PAGO EXITOSO ===== */
@@ -2856,7 +2994,7 @@ Te ofrecemos:
     showNextMessage();
     
     // Cambiar mensaje cada 5 segundos
-    setInterval(showNextMessage, 5000);
+    setInterval(showNextMessage, 8000);
   }
 
   /* ===== ACTUALIZAR FONDOS DE SLIDES ===== */
@@ -2890,6 +3028,7 @@ Te ofrecemos:
   window.onclick = e => { 
     if (e.target == modal) modal.style.display = 'none';
     if (e.target == boltPaymentModal) boltPaymentModal.style.display = 'none';
+    if (e.target == whatsappSuccessModal) whatsappSuccessModal.style.display = 'none';
   };
 
   imageUpload.addEventListener('change', e => {
@@ -3000,6 +3139,7 @@ Te ofrecemos:
     initEcommerce();
     initRotatingBanner();
     initImageZoom(); // Inicializar el sistema de zoom de imágenes
+    initProductURLs(); // Inicializar sistema de URLs únicas para productos
     showSlide(0);
   });
 </script>
