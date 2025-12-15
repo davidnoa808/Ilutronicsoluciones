@@ -531,6 +531,74 @@
       background: #45a049;
     }
 
+    /* ===== NUEVO MODAL DE ÉXITO PARA WHATSAPP ===== */
+    .whatsapp-success-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.7);
+      z-index: 1200;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .whatsapp-success-content {
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      text-align: center;
+      max-width: 400px;
+      width: 90%;
+      animation: slideInFromBottom 0.5s ease-out;
+    }
+
+    .whatsapp-success-icon {
+      font-size: 60px;
+      color: #25D366;
+      margin-bottom: 20px;
+    }
+
+    .whatsapp-success-title {
+      font-size: 1.5rem;
+      color: #25D366;
+      margin-bottom: 15px;
+    }
+
+    .whatsapp-success-message {
+      margin-bottom: 25px;
+      color: #555;
+      line-height: 1.5;
+    }
+
+    .whatsapp-success-close {
+      background: #25D366;
+      color: white;
+      border: none;
+      padding: 12px 25px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background 0.3s;
+    }
+
+    .whatsapp-success-close:hover {
+      background: #1DA851;
+    }
+
+    @keyframes slideInFromBottom {
+      0% {
+        transform: translateY(100px);
+        opacity: 0;
+      }
+      100% {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
     /* Animación de pago exitoso */
     .payment-success {
       display: none;
@@ -556,49 +624,6 @@
     .success-animation h2 {
       color: #4CAF50;
       margin-bottom: 15px;
-    }
-
-    /* Modal de éxito para envío de formulario */
-    .success-form-modal {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0,0,0,0.8);
-      z-index: 1300;
-      justify-content: center;
-      align-items: center;
-    }
-
-    .success-form-content {
-      background: white;
-      padding: 40px;
-      border-radius: 15px;
-      text-align: center;
-      max-width: 500px;
-      width: 90%;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-    }
-
-    .success-icon {
-      font-size: 60px;
-      color: #4CAF50;
-      margin-bottom: 20px;
-    }
-
-    .success-form-content h2 {
-      color: #333;
-      margin-bottom: 15px;
-      font-size: 1.8rem;
-    }
-
-    .success-form-content p {
-      color: #666;
-      margin-bottom: 25px;
-      font-size: 1.1rem;
-      line-height: 1.5;
     }
 
     @keyframes pulse {
@@ -1392,7 +1417,7 @@
           <h2 class="offer-title">Ofertas del Mes</h2>
           <p class="offer-subtitle">Kit Arduino Starter por solo $150.000</p>
           <div class="robot"></div>
-          <a href="https://wa.me/573127439018" target="_blank" class="whatsapp-btn">
+          <a href="https://wa.me/573127439018?text=Hola,%20estoy%20interesado%20en%20las%20ofertas%20del%20mes%20de%20Ilutronic" target="_blank" class="whatsapp-btn">
             <img src="https://cdn-icons-png.flaticon.com/512/220/220236.png" width="24" alt="WhatsApp"> COTIZA YA
           </a>
         </div>
@@ -1407,7 +1432,7 @@
               Tu navegador no soporta video.
             </video>
           </div>
-          <a href="https://wa.me/573127439018" target="_blank" class="cotiza-btn">COTIZA YA</a>
+          <a href="https://wa.me/573127439018?text=Hola,%20quiero%20cotizar%20un%20servicio%20de%20Ilutronic" target="_blank" class="cotiza-btn">COTIZA YA</a>
         </div>
       </div>
 
@@ -1857,7 +1882,7 @@
           <textarea id="message" name="message" rows="5" placeholder="Cuéntanos sobre tu proyecto..." required></textarea>
         </div>
         <div class="text-center">
-          <a href="https://wa.me/573127439018" target="_blank" class="whatsapp-button" aria-label="Contactar por WhatsApp">
+          <a href="https://wa.me/573127439018?text=Hola,%20quiero%20contactarme%20con%20Ilutronic%20para%20más%20información" target="_blank" class="whatsapp-button" aria-label="Contactar por WhatsApp">
             <svg viewBox="0 0 32 32"><path d="M19.11 17.205c-.372 0-1.088 1.39-1.518 1.39a.63.63 0 0 1-.315-.1c-.802-.402-1.504-.817-2.163-1.447-.545-.516-1.146-1.29-1.46-1.963a.426.426 0 0 1-.073-.215c0-.33.99-.945.99-1.49 0-.143-.73-2.09-.832-2.335-.143-.372-.214-.487-.6-.487-.187 0-.36-.044-.53-.044-.302 0-.53.115-.746.315-.688.645-1.032 1.318-1.06 2.264v.114c-.015.99.472 1.977 1.017 2.78 1.23 1.82 2.506 3.41 4.554 4.34.616.287 2.035.888 2.722.888.817 0 2.15-.515 2.438-1.508.287-.99.287-1.84.13-2.09-.128-.25-.3-.36-.6-.36m-6.508 6.71a9.26 9.26 0 0 0 4.767 4.767c.88.36 1.88.47 2.64.36 2.72-.402 3.78-2.18 3.78-4.94v-5.1a2.09 2.09 0 0 0-1.032-1.84A10.22 10.22 0 0 0 16.315 4.1a1.73 1.73 0 0 0-1.46.044c-.99.444-1.638 1.39-1.753 2.473-.073.615.044 1.23.315 1.752L10.56 12.2c-.044.13-.1.214-.1.33s0 .215.044.33l2.264 3.045c.044.115.1.214.1.33s0 .214-.044.33l-2.474 3.78c-.044.13-.073.24-.073.36 0 .24.1.444.214.616.13.187.287.33.472.444a1.37 1.37 0 0 0 .615.073c.215 0 .4-.044.56-.114L15.8 21.19a.425.425 0 0 1 .36.044l.13.072c.517.24.96.516 1.33.817.39.287.73.545.99.746.24.214.36.472.36.746s-.1.53-.315.746zM16 2C7.972 2 2 7.972 2 16s5.972 14 14 14 14-5.972 14-14S24.028 2 16 2z" fill="white"></path></svg>
             Contactar por WhatsApp
           </a>
@@ -1956,6 +1981,16 @@
   </div>
 </div>
 
+<!-- ===== NUEVO MODAL DE ÉXITO PARA WHATSAPP ===== -->
+<div id="whatsappSuccessModal" class="whatsapp-success-modal">
+  <div class="whatsapp-success-content">
+    <div class="whatsapp-success-icon">✓</div>
+    <h2 class="whatsapp-success-title">¡Mensaje Enviado!</h2>
+    <p class="whatsapp-success-message">Tu mensaje ha sido enviado correctamente por WhatsApp. Pronto nos pondremos en contacto contigo.</p>
+    <button class="whatsapp-success-close" id="whatsapp-success-close">Aceptar</button>
+  </div>
+</div>
+
 <!-- ===== ANIMACIÓN DE PAGO EXITOSO ===== -->
 <div id="payment-success" class="payment-success">
   <div class="success-animation">
@@ -1963,16 +1998,6 @@
     <p>Tu pedido ha sido procesado correctamente.</p>
     <p>Recibirás un correo con los detalles de tu compra.</p>
     <button id="close-success-btn" class="modal-btn close-btn">Cerrar</button>
-  </div>
-</div>
-
-<!-- ===== MODAL DE ÉXITO PARA ENVÍO DE FORMULARIO ===== -->
-<div id="success-form-modal" class="success-form-modal">
-  <div class="success-form-content">
-    <div class="success-icon">✓</div>
-    <h2>¡Información Enviada con Éxito!</h2>
-    <p>Hemos recibido tu información y pronto nos pondremos en contacto contigo. Te hemos enviado un mensaje de WhatsApp con nuestras ofertas especiales.</p>
-    <button id="close-success-form-btn" class="modal-btn close-btn">Aceptar</button>
   </div>
 </div>
 
@@ -2020,9 +2045,9 @@
   let currentProduct = null;
   let currentQuantity = 1;
 
-  /* ===== VARIABLES PARA MODAL DE ÉXITO ===== */
-  const successFormModal = document.getElementById('success-form-modal');
-  const closeSuccessFormBtn = document.getElementById('close-success-form-btn');
+  /* ===== NUEVAS VARIABLES PARA MODAL DE ÉXITO ===== */
+  const whatsappSuccessModal = document.getElementById('whatsappSuccessModal');
+  const whatsappSuccessClose = document.getElementById('whatsapp-success-close');
 
   /* ===== FUNCIÓN PARA NAVEGACIÓN POR BOTONES ===== */
   function scrollToSection(sectionId) {
@@ -2345,6 +2370,13 @@
     }
   }
 
+  /* ===== NUEVA FUNCIÓN PARA MOSTRAR MODAL DE ÉXITO ===== */
+  function showWhatsAppSuccess(message = "Tu mensaje ha sido enviado correctamente por WhatsApp. Pronto nos pondremos en contacto contigo.") {
+    const messageElement = document.querySelector('.whatsapp-success-message');
+    messageElement.textContent = message;
+    whatsappSuccessModal.style.display = 'flex';
+  }
+
   /* ===== INICIALIZAR E-COMMERCE MEJORADO ===== */
   function initEcommerce() {
     const productsGrid = document.getElementById('products-grid');
@@ -2379,6 +2411,18 @@
     // Configurar modal de pago Bolt
     boltPaymentClose.addEventListener('click', function() {
       boltPaymentModal.style.display = 'none';
+    });
+
+    // Configurar modal de éxito de WhatsApp
+    whatsappSuccessClose.addEventListener('click', function() {
+      whatsappSuccessModal.style.display = 'none';
+    });
+
+    // Cerrar modal de éxito al hacer clic fuera
+    whatsappSuccessModal.addEventListener('click', function(e) {
+      if (e.target === whatsappSuccessModal) {
+        whatsappSuccessModal.style.display = 'none';
+      }
     });
 
     boltSubmitBtn.addEventListener('click', processRealBoltPayment);
@@ -2526,7 +2570,7 @@
       }
     };
 
-    // Botón WhatsApp - CORREGIDO: Ahora envía al administrador
+    // Botón WhatsApp - CORREGIDO: Ahora envía al administrador y muestra modal de éxito
     document.getElementById('whatsapp-btn').onclick = function() {
       sendProductWhatsApp(product, currentQuantity);
     };
@@ -2635,7 +2679,14 @@
     // Este mensaje va al ADMINISTRADOR para procesar la compra
     const message = `Nueva solicitud de compra:\n\nProducto: ${product.name}\nCantidad: ${quantity}\nTotal: $${total.toLocaleString()}\n\nPor favor contactar al cliente para procesar el pedido.`;
     const encodedMessage = encodeURIComponent(message);
-    window.open(`https://wa.me/573127439018?text=${encodedMessage}`, '_blank');
+    
+    // Abrir WhatsApp
+    const whatsappWindow = window.open(`https://wa.me/573127439018?text=${encodedMessage}`, '_blank');
+    
+    // Mostrar modal de éxito después de un breve retraso
+    setTimeout(() => {
+      showWhatsAppSuccess("Tu consulta sobre el producto ha sido enviada correctamente. Pronto nos pondremos en contacto contigo para procesar tu pedido.");
+    }, 1000);
   }
 
   /* ===== MODAL DE PAGO BOLT ===== */
@@ -2735,7 +2786,12 @@
     // Abrir WhatsApp para enviar comprobante
     const message = `Hola, acabo de realizar un pago Nequi por $${total.toLocaleString()} para el producto ${currentProduct.name} (Cantidad: ${currentQuantity}). Adjunto comprobante.`;
     const encodedMessage = encodeURIComponent(message);
-    window.open(`https://wa.me/573127439018?text=${encodedMessage}`, '_blank');
+    const whatsappWindow = window.open(`https://wa.me/573127439018?text=${encodedMessage}`, '_blank');
+    
+    // Mostrar modal de éxito
+    setTimeout(() => {
+      showWhatsAppSuccess("Hemos recibido tu solicitud de pago. Por favor envía el comprobante por WhatsApp para procesar tu pedido.");
+    }, 1000);
     
     // Cerrar modal
     boltPaymentModal.style.display = 'none';
@@ -2747,8 +2803,7 @@
 
   /* ===== FUNCIONES DE VALIDACIÓN ===== */
   function validatePhone(phone) {
-    // Aceptar números con o sin código de país
-    const phoneRegex = /^(\+?57)?[1-9]\d{9}$|^[1-9]\d{9}$/;
+    const phoneRegex = /^[0-9]{10}$/;
     return phoneRegex.test(phone);
   }
 
@@ -2757,7 +2812,7 @@
     return emailRegex.test(email);
   }
 
-  /* ===== FUNCIÓN PRINCIPAL CORREGIDA PARA ENVÍO DE FORMULARIO ===== */
+  /* ===== FUNCIONES DEL FORMULARIO DE CONTACTO CORREGIDAS ===== */
   function sendContactInfo() {
     const name = document.getElementById('name').value;
     const phone = document.getElementById('phone').value;
@@ -2769,17 +2824,8 @@
       return;
     }
 
-    // Limpiar el número de teléfono
-    let cleanPhone = phone.replace(/\D/g, ''); // Remover todo excepto números
-    
-    // Si el número comienza con 57 (código de Colombia), removerlo para el envío
-    if (cleanPhone.startsWith('57')) {
-      cleanPhone = cleanPhone.substring(2);
-    }
-    
-    // Si el número tiene 10 dígitos pero comienza con 3, está bien
-    if (cleanPhone.length !== 10) {
-      alert('Por favor ingrese un número de teléfono válido (10 dígitos, ejemplo: 3123456789)');
+    if (!validatePhone(phone)) {
+      alert('Por favor ingrese un número de teléfono válido (10 dígitos)');
       return;
     }
 
@@ -2788,97 +2834,96 @@
       return;
     }
 
-    // 1. ENVIAR MENSAJE AL CLIENTE (número que ingresó)
-    sendWelcomeWhatsAppToClient(cleanPhone, name, email, message);
+    // Enviar información al administrador (número real 3127439018)
+    sendAdminNotification(name, phone, email, message);
     
-    // 2. ENVIAR NOTIFICACIÓN AL ADMINISTRADOR
-    sendNotificationToAdmin(name, cleanPhone, email, message);
+    // Enviar correo de bienvenida al CLIENTE (no a ti mismo)
+    sendWelcomeEmail(name, email, phone);
     
-    // 3. MOSTRAR MODAL DE ÉXITO
-    showSuccessModal();
+    // Enviar mensaje de WhatsApp al CLIENTE (no a ti mismo)
+    sendWelcomeWhatsApp(phone, name);
     
-    // 4. LIMPIAR FORMULARIO
+    // Limpiar formulario
     document.getElementById('contact-form').reset();
   }
 
-  /* ===== ENVIAR WHATSAPP AL CLIENTE (NÚMERO INGRESADO) ===== */
-  function sendWelcomeWhatsAppToClient(phone, name, email, message) {
-    // Mensaje personalizado para el CLIENTE
+  function sendAdminNotification(name, phone, email, message) {
+    // Este mensaje va al ADMINISTRADOR (3127439018)
+    const adminMessage = `Nuevo contacto desde el sitio web:\n\nNombre: ${name}\nTeléfono: ${phone}\nEmail: ${email}\nMensaje: ${message}`;
+    const encodedAdminMessage = encodeURIComponent(adminMessage);
+    
+    // Abrir WhatsApp del ADMINISTRADOR
+    const whatsappWindow = window.open(`https://wa.me/573127439018?text=${encodedAdminMessage}`, '_blank');
+    
+    // Mostrar modal de éxito
+    setTimeout(() => {
+      showWhatsAppSuccess("Tu información de contacto ha sido enviada correctamente. Pronto nos pondremos en contacto contigo.");
+    }, 1000);
+  }
+
+  function sendWelcomeEmail(name, email, phone) {
+    // En un entorno real, aquí se enviaría un correo al CLIENTE
+    const emailContent = `
+      Asunto: ¡Bienvenido a Ilutronic! - Ofertas Especiales
+      
+      Hola ${name},
+      
+      ¡Gracias por contactarnos!
+      
+      En Ilutronic nos especializamos en servicios de ingeniería electrónica y robótica.
+      
+      Pronto nos pondremos en contacto con usted al teléfono ${phone}.
+      
+      OFERTAS ESPECIALES PARA TI:
+      🔹 10% de descuento en tu primer servicio
+      🔹 Kit Arduino Starter por solo $150,000
+      🔹 Asesoría técnica gratuita para tu proyecto
+      
+      ¡Estamos para servirte!
+      
+      Atentamente,
+      Equipo Ilutronic
+      📞 3127439018
+    `;
+    
+    console.log("Correo de bienvenida enviado al CLIENTE:", email);
+    console.log(emailContent);
+    
+    // En un entorno real, implementarías el envío real de correo aquí
+    // usando EmailJS, SendGrid, etc.
+  }
+
+  function sendWelcomeWhatsApp(phone, name) {
+    // Este mensaje va al CLIENTE (número que ingresó en el formulario)
     const clientMessage = `¡Hola ${name}! 👋 
 
-*ILUTRONIC - INGENIERÍA ELECTRÓNICA Y ROBÓTICA*
+Gracias por contactar a *Ilutronic* 🔌🤖
 
-Gracias por contactarnos. Hemos recibido tu solicitud:
+Hemos recibido tu información y pronto nos pondremos en contacto contigo.
 
-📋 *Tu mensaje:* ${message}
+Te ofrecemos:
+• Diseño de circuitos electrónicos
+• Servicios de robótica y automatización
+• Impresión 3D
+• Venta de Arduino, Raspberry Pi y componentes
+• Proyectos IoT y domótica
 
-📧 *Tu email:* ${email}
+*OFERTA ESPECIAL:* 10% de descuento en tu primer servicio!
 
-*NUESTROS SERVICIOS:*
-🔹 Diseño de circuitos electrónicos
-🔹 Desarrollo de sistemas robóticos  
-🔹 Impresión 3D profesional
-🔹 Venta de componentes (Arduino, Raspberry Pi)
-🔹 Proyectos IoT y domótica
-🔹 Desarrollo de software y aplicaciones
+📍 Bogotá - Lunes a Viernes 8am a 6pm
 
-*OFERTAS ESPECIALES PARA TI:*
-✅ 10% de descuento en tu primer servicio
-✅ Kit Arduino Starter por solo $150.000
-✅ Asesoría técnica gratuita
+¿En qué podemos ayudarte? 😊`;
 
-📍 *Horario:* Lunes a Viernes 8am a 6pm
-📞 *Contacto:* 3127439018
-
-Pronto nos pondremos en contacto contigo para atender tu solicitud.
-
-¡Gracias por confiar en nosotros! 🚀`;
-
-    const encodedMessage = encodeURIComponent(clientMessage);
+    const encodedClientMessage = encodeURIComponent(clientMessage);
     
     // Abrir WhatsApp del CLIENTE (número que ingresó)
-    // IMPORTANTE: Usamos el número limpio (sin código de país)
-    window.open(`https://wa.me/57${phone}?text=${encodedMessage}`, '_blank');
-  }
-
-  /* ===== ENVIAR NOTIFICACIÓN AL ADMINISTRADOR ===== */
-  function sendNotificationToAdmin(name, phone, email, message) {
-    // Mensaje para el ADMINISTRADOR
-    const adminMessage = `📋 *NUEVO CONTACTO DESDE EL SITIO WEB*
-
-👤 *Nombre:* ${name}
-📱 *Teléfono:* 57${phone}
-📧 *Email:* ${email}
-💬 *Mensaje:* ${message}
-
-⏰ *Fecha:* ${new Date().toLocaleString()}
-🔗 *Origen:* Formulario de contacto`;
-
-    const encodedMessage = encodeURIComponent(adminMessage);
+    const whatsappWindow = window.open(`https://wa.me/57${phone}?text=${encodedClientMessage}`, '_blank');
     
-    // Abrir WhatsApp del ADMINISTRADOR (3127439018)
-    window.open(`https://wa.me/573127439018?text=${encodedMessage}`, '_blank');
+    // Mostrar modal de éxito para el cliente
+    setTimeout(() => {
+      showWhatsAppSuccess("Te hemos enviado un mensaje de bienvenida por WhatsApp con información sobre nuestros servicios y ofertas especiales.");
+    }, 1000);
   }
-
-  /* ===== MOSTRAR MODAL DE ÉXITO ===== */
-  function showSuccessModal() {
-    successFormModal.style.display = 'flex';
-    document.body.style.overflow = 'hidden';
-  }
-
-  /* ===== CERRAR MODAL DE ÉXITO ===== */
-  closeSuccessFormBtn.addEventListener('click', function() {
-    successFormModal.style.display = 'none';
-    document.body.style.overflow = '';
-  });
-
-  // Cerrar modal si se hace clic fuera del contenido
-  successFormModal.addEventListener('click', function(e) {
-    if (e.target === successFormModal) {
-      successFormModal.style.display = 'none';
-      document.body.style.overflow = '';
-    }
-  });
 
   /* ===== MOSTRAR ANIMACIÓN DE PAGO EXITOSO ===== */
   function showPaymentSuccess() {
@@ -2949,7 +2994,7 @@ Pronto nos pondremos en contacto contigo para atender tu solicitud.
     showNextMessage();
     
     // Cambiar mensaje cada 5 segundos
-    setInterval(showNextMessage, 5000);
+    setInterval(showNextMessage, 8000);
   }
 
   /* ===== ACTUALIZAR FONDOS DE SLIDES ===== */
@@ -2983,10 +3028,7 @@ Pronto nos pondremos en contacto contigo para atender tu solicitud.
   window.onclick = e => { 
     if (e.target == modal) modal.style.display = 'none';
     if (e.target == boltPaymentModal) boltPaymentModal.style.display = 'none';
-    if (e.target == successFormModal) {
-      successFormModal.style.display = 'none';
-      document.body.style.overflow = '';
-    }
+    if (e.target == whatsappSuccessModal) whatsappSuccessModal.style.display = 'none';
   };
 
   imageUpload.addEventListener('change', e => {
@@ -3071,8 +3113,35 @@ Pronto nos pondremos en contacto contigo para atender tu solicitud.
     // Actualizar slide activo
     track.style.transform = `translateX(-${idx * 20}%)`;
     slides.forEach(s => s.classList.remove('active'));
-    slides[idx
+    slides[idx].classList.add('active');
 
+    // Manejar video
+    const vid = slides[idx].querySelector('video');
+    if (vid) {
+      vid.currentTime = 0;
+      vid.play();
+      vid.onended = () => moveSlide(1);
+    } else {
+      // Configurar timeout para siguiente slide
+      if (tiempos[idx] > 0) {
+        slideTimeout = setTimeout(() => moveSlide(1), tiempos[idx]);
+      }
+    }
+  }
+
+  function moveSlide(dir) {
+    currentSlide = (currentSlide + dir + slides.length) % slides.length;
+    showSlide(currentSlide);
+  }
+
+  // Inicializar componentes
+  document.addEventListener('DOMContentLoaded', function() {
+    initEcommerce();
+    initRotatingBanner();
+    initImageZoom(); // Inicializar el sistema de zoom de imágenes
+    initProductURLs(); // Inicializar sistema de URLs únicas para productos
+    showSlide(0);
+  });
+</script>
 </body>
 </html>
-
